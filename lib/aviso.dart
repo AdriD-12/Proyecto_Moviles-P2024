@@ -59,14 +59,15 @@ class AvisoPrivacidadScreen extends StatelessWidget {
       children: [
         // Fondo de la imagen
         Image.asset(
-          'resources/fondo.png', // Ajusta la ruta de la imagen según su ubicación en tu proyecto
+          'resources/fondo.png', // Ajusta la ruta de la imagen segï¿½n su ubicaciï¿½n en tu proyecto
           fit: BoxFit.cover,
           width: double.infinity,
           height: double.infinity,
         ),
         // Contenedor blanco para el texto del aviso de privacidad
         Container(
-          color: Colors.white.withOpacity(0.8), // Opacidad para que se vea la imagen de fondo
+          color: Colors.white
+              .withOpacity(0.8), // Opacidad para que se vea la imagen de fondo
           padding: EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +89,7 @@ class AvisoPrivacidadScreen extends StatelessWidget {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  // Navegar a la página de registro
+                  // Navegar a la pï¿½gina de registro
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => RegisterPage()),
@@ -96,7 +97,7 @@ class AvisoPrivacidadScreen extends StatelessWidget {
                 },
                 child: Text('Aceptar'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
+                  backgroundColor: Colors.green,
                 ),
               ),
             ],
@@ -115,7 +116,7 @@ class RegisterPage extends StatelessWidget {
         title: Text('Registro'),
       ),
       body: Center(
-        child: Text('Página de Registro'),
+        child: Text('Pï¿½gina de Registro'),
       ),
     );
   }

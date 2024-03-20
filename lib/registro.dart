@@ -36,8 +36,8 @@ class _RegisterFormState extends State<RegisterForm> {
 
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? true) {
-      // Aquí puedes almacenar la información en tu base de datos o realizar cualquier otra acción necesaria
-      print('Información almacenada');
+      // Aquï¿½ puedes almacenar la informaciï¿½n en tu base de datos o realizar cualquier otra acciï¿½n necesaria
+      print('Informaciï¿½n almacenada');
     }
   }
 
@@ -68,42 +68,42 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             controller: _emailController,
-            decoration: InputDecoration(labelText: 'Correo Electrónico'),
+            decoration: InputDecoration(labelText: 'Correo Electrï¿½nico'),
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value?.isEmpty ?? true) {
-                return 'Por favor ingresa tu correo electrónico';
+                return 'Por favor ingresa tu correo electrï¿½nico';
               }
-              // Puedes agregar más validaciones para el formato del correo electrónico si lo deseas
+              // Puedes agregar mï¿½s validaciones para el formato del correo electrï¿½nico si lo deseas
               return null;
             },
           ),
           TextFormField(
             controller: _passwordController,
-            decoration: InputDecoration(labelText: 'Contraseña'),
+            decoration: InputDecoration(labelText: 'Contraseï¿½a'),
             obscureText: true,
             validator: (value) {
               if (value?.isEmpty ?? true) {
-                return 'Por favor ingresa tu contraseña';
+                return 'Por favor ingresa tu contraseï¿½a';
               }
-              // Puedes agregar más validaciones para la fortaleza de la contraseña si lo deseas
+              // Puedes agregar mï¿½s validaciones para la fortaleza de la contraseï¿½a si lo deseas
               return null;
             },
           ),
           TextFormField(
             controller: _confirmPasswordController,
-            decoration: InputDecoration(labelText: 'Confirmar Contraseña'),
+            decoration: InputDecoration(labelText: 'Confirmar Contraseï¿½a'),
             obscureText: true,
             validator: (value) {
               if (value != _passwordController.text) {
-                return 'Las contraseñas no coinciden';
+                return 'Las contraseï¿½as no coinciden';
               }
               return null;
             },
           ),
           TextFormField(
             controller: _generoController,
-            decoration: InputDecoration(labelText: 'Género'),
+            decoration: InputDecoration(labelText: 'Gï¿½nero'),
           ),
           TextFormField(
             controller: _fechaNacimientoController,
@@ -114,13 +114,14 @@ class _RegisterFormState extends State<RegisterForm> {
             onPressed: _submitForm,
             child: Text('Aceptar'),
             style: ElevatedButton.styleFrom(
-              primary: Colors.green, // Cambia el color de fondo del botón a verde
+              backgroundColor:
+                  Colors.green, // Cambia el color de fondo del botï¿½n a verde
             ),
           ),
           SizedBox(height: 20),
           InkWell(
             onTap: () {
-              // Aquí puedes navegar a la pantalla de aviso de privacidad
+              // Aquï¿½ puedes navegar a la pantalla de aviso de privacidad
             },
             child: Text(
               'Aviso de Privacidad',
