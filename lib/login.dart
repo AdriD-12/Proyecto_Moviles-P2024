@@ -30,7 +30,13 @@ class LoginPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Espacio para el logo o título
-                      // Aquí puedes añadir un logo o un título si lo deseas
+                      Text( 'GOAL',
+                        style: TextStyle(
+                          fontSize: 80,
+                          fontWeight: FontWeight.w500
+                          ),
+                        textAlign: TextAlign.center,
+                      ),
                       SizedBox(height: 100.0),
                       // Campos de texto para correo y contraseña
                       TextFormField(
@@ -59,17 +65,19 @@ class LoginPage extends StatelessWidget {
                       ),
                       SizedBox(height: 20.0),
                       // Botón de registro
-                      TextButton(
+                      Text('¿Eres nuevo? ¡Regístrate aquí!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white
+                          )),
+                      ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => RegistroPage()),
                           );
                         },
-                        child: Text('¿Eres nuevo? ¡Regístrate aquí!',
-                          style: TextStyle(
-                            color: Colors.white
-                          )),
+                        child: Text('¡Regístrate!'),
                       ),
                     ],
                   ),
