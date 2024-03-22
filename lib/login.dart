@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 100.0),
+                      SizedBox(height: 70.0),
                       // Campos de texto para correo y contraseña
                       TextFormField(
                         decoration: InputDecoration(
