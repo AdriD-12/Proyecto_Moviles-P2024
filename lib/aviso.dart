@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
 }
 */
 import 'package:flutter/material.dart';
+import 'registro.dart';
 
 void main() {
   runApp(AvisoPrivacidadPage());
@@ -108,6 +109,7 @@ class AvisoPrivacidadScreen extends StatelessWidget {
   }
 }
 
+/*
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,3 +123,4 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
+*/

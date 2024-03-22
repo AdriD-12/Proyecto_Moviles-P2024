@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'registro.dart';
+import 'aviso.dart';
 
 void main() {
   runApp(LoginPage());
@@ -74,10 +76,39 @@ class LoginPage extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => RegistroPage()),
+                            MaterialPageRoute(builder: (context) => RegisterPage()),
                           );
                         },
                         child: Text('¡Regístrate!'),
+                      ),
+                      SizedBox(height: 280),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 25,
+                          right: 25,
+                          top: 20,
+                          bottom: 20
+                          ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                        child:
+                          InkWell(
+                            onTap: () {
+                              // Aquï¿½ puedes navegar a la pantalla de aviso de privacidad
+                              Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => AvisoPrivacidadPage()),
+                              );
+                            },
+                            child: Text(
+                              'Aviso de Privacidad',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: const Color.fromARGB(255, 10, 98, 170)
+                                ),
+                            ),
+                          ),
                       ),
                     ],
                   ),
@@ -91,16 +122,3 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class RegistroPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Registro'),
-      ),
-      body: Center(
-        child: Text('Página de Registro'),
-      ),
-    );
-  }
-}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'aviso.dart';
 
 void main() {
   runApp(RegisterPage());
@@ -92,18 +93,18 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             controller: _confirmPasswordController,
-            decoration: InputDecoration(labelText: 'Confirmar Contraseï¿½a'),
+            decoration: InputDecoration(labelText: 'Confirmar Contraseña'),
             obscureText: true,
             validator: (value) {
               if (value != _passwordController.text) {
-                return 'Las contraseï¿½as no coinciden';
+                return 'Las contraseñas no coinciden';
               }
               return null;
             },
           ),
           TextFormField(
             controller: _generoController,
-            decoration: InputDecoration(labelText: 'Gï¿½nero'),
+            decoration: InputDecoration(labelText: 'Género'),
           ),
           TextFormField(
             controller: _fechaNacimientoController,
@@ -121,7 +122,11 @@ class _RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 20),
           InkWell(
             onTap: () {
-              // Aquï¿½ puedes navegar a la pantalla de aviso de privacidad
+              // Navegar a la pantalla de aviso de privacidad
+              Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AvisoPrivacidadPage()),
+              );
             },
             child: Text(
               'Aviso de Privacidad',
