@@ -1,6 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 void main() => runApp(MyApp());
+
+class PieChartWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 120,
+      height: 120,
+      child: PieChart(
+        PieChartData(
+          sections: [
+            PieChartSectionData(
+              color: Colors.blue,
+              value: 5,
+              title: '',
+              radius: 30,
+            ),
+            PieChartSectionData(
+              color: Colors.red,
+              value: 2,
+              title: '',
+              radius: 30,
+            ),
+          ],
+          borderData: FlBorderData(show: false),
+          sectionsSpace: 0,
+          centerSpaceRadius: 0,
+        ),
+      ),
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,9 +45,9 @@ class MyApp extends StatelessWidget {
       // Application theme data, you can set the colors for the application as
       // you want
       theme: ThemeData(
-        // useMaterial3: false,
-        primarySwatch: Colors.blue,
-      ),
+          // useMaterial3: false,
+          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: Color.fromARGB(142, 46, 141, 51)),
       // A widget which will be started on application startup
       home: MyHomePage(title: 'Info Partidos'),
     );
@@ -175,7 +207,7 @@ class MyHomePage extends StatelessWidget {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 158,
+                  height: 200, // Ajusta esta altura según sea necesario
                   decoration: BoxDecoration(
                     color: Color(0xFFAFE1C7),
                   ),
@@ -197,57 +229,74 @@ class MyHomePage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              'https://picsum.photos/seed/198/600',
-                              width: 149,
-                              height: 116,
-                              fit: BoxFit.cover,
-                            ),
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              PieChartWidget(), // Aquí se añade el gráfico de pastel
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                              ),
+                            ],
                           ),
                           Column(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              RichText(
-                                textScaleFactor:
-                                    MediaQuery.of(context).textScaleFactor,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '5 ',
-                                      style: const TextStyle(
-                                        fontFamily: 'Readex Pro',
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RichText(
+                                  textScaleFactor:
+                                      MediaQuery.of(context).textScaleFactor,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '5 ',
+                                        style: const TextStyle(
+                                          fontFamily: 'Readex Pro',
+                                          fontSize: 25,
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: '- Ganados',
-                                      style: TextStyle(),
-                                    )
-                                  ],
+                                      TextSpan(
+                                        text: '- Ganados',
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                              RichText(
-                                textScaleFactor:
-                                    MediaQuery.of(context).textScaleFactor,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '2',
-                                      style: const TextStyle(
-                                        fontFamily: 'Readex Pro',
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RichText(
+                                  textScaleFactor:
+                                      MediaQuery.of(context).textScaleFactor,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '2',
+                                        style: const TextStyle(
+                                          fontFamily: 'Readex Pro',
+                                          fontSize: 25,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: ' - Perdidos',
-                                      style: TextStyle(),
-                                    )
-                                  ],
+                                      TextSpan(
+                                        text: ' - Perdidos',
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
