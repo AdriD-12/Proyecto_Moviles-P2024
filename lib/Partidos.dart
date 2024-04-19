@@ -54,14 +54,12 @@ class PartidosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: 
-          Text('Partidos',
-          //textAlign: Center(),
-            style: TextStyle(color: 
-                      Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 25)
-          ),
+        title: Text('Partidos',
+            //textAlign: Center(),
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 25)),
         backgroundColor: Colors.green[700],
       ),
       body: ListView.builder(
@@ -107,14 +105,14 @@ class DetallePartidoScreen extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // Lógica para participar en el partido
+              // Lï¿½gica para participar en el partido
             },
             child: Text('Participar'),
           ),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // Lógica para ver el partido
+              // Lï¿½gica para ver el partido
             },
             child: Text('Ver'),
           ),

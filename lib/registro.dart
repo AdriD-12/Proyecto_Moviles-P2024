@@ -38,7 +38,7 @@ class _RegisterFormState extends State<RegisterForm> {
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? true) {
       // Aqu� puedes almacenar la informaci�n en tu base de datos o realizar cualquier otra acci�n necesaria
-      print('Informaci�n almacenada');
+      print('Información almacenada');
     }
   }
 
@@ -69,11 +69,11 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             controller: _emailController,
-            decoration: InputDecoration(labelText: 'Correo Electr�nico'),
+            decoration: InputDecoration(labelText: 'Correo Electrónico'),
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value?.isEmpty ?? true) {
-                return 'Por favor ingresa tu correo electr�nico';
+                return 'Por favor ingresa tu correo electrónico';
               }
               // Puedes agregar m�s validaciones para el formato del correo electr�nico si lo deseas
               return null;
@@ -81,11 +81,11 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             controller: _passwordController,
-            decoration: InputDecoration(labelText: 'Contrase�a'),
+            decoration: InputDecoration(labelText: 'Contraseña'),
             obscureText: true,
             validator: (value) {
               if (value?.isEmpty ?? true) {
-                return 'Por favor ingresa tu contrase�a';
+                return 'Por favor ingresa tu contraseña';
               }
               // Puedes agregar m�s validaciones para la fortaleza de la contrase�a si lo deseas
               return null;
@@ -93,18 +93,18 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             controller: _confirmPasswordController,
-            decoration: InputDecoration(labelText: 'Confirmar Contrase�a'),
+            decoration: InputDecoration(labelText: 'Confirmar Contraseña'),
             obscureText: true,
             validator: (value) {
               if (value != _passwordController.text) {
-                return 'Las contrase�as no coinciden';
+                return 'Las contraseñas no coinciden';
               }
               return null;
             },
           ),
           TextFormField(
             controller: _generoController,
-            decoration: InputDecoration(labelText: 'G�nero'),
+            decoration: InputDecoration(labelText: 'Género'),
           ),
           TextFormField(
             controller: _fechaNacimientoController,
@@ -124,8 +124,8 @@ class _RegisterFormState extends State<RegisterForm> {
             onTap: () {
               // Navegar a la pantalla de aviso de privacidad
               Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AvisoPrivacidadPage()),
+                context,
+                MaterialPageRoute(builder: (context) => AvisoPrivacidadPage()),
               );
             },
             child: Text(
