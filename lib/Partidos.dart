@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:proyecto/constants.dart';
+import 'package:http/http.dart' as http;
+import 'package:proyecto/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-// Clase para representar un partido
 class Partido {
   final String id;
-  final String time;
-  final int idGroup1;
-  final int idGroup2;
-  final String idPlace;
+  final String nombre;
+  final String fecha;
 
   Partido({
     required this.id,
-    required this.time,
-    required this.idGroup1,
-    required this.idGroup2,
-    required this.idPlace,
+    required this.nombre,
+    required this.fecha,
   });
 }
 
@@ -36,43 +32,82 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PartidosScreen extends StatelessWidget {
-  final List<Partido> partidos = _parsePartidos();
+class PartidosScreen extends StatefulWidget {
+  @override
+  _PartidosScreenState createState() => _PartidosScreenState();
+}
 
-  static List<Partido> _parsePartidos() {
-    final jsonData = jsonDecode(CATALOGO_PARTIDOS);
-    return List<Partido>.from(jsonData.map((x) => Partido(
-          id: x['id'],
-          time: x['time'],
-          idGroup1: x['id_group1'],
-          idGroup2: x['id_group2'],
-          idPlace: x['id_place'],
-        )));
+class _PartidosScreenState extends State<PartidosScreen> {
+  List<Partido> Partidos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPartidos();
+  }
+
+  Future<void> _fetchPartidos() async {
+    String? token = await AuthService.getToken();
+    if (token == null) {
+      print('No se encontró ningún token guardado.');
+      return;
+    }
+
+    final response = await http.get(
+      Uri.parse('http://192.168.50.29:8080/api/event'),
+      headers: {
+        'Authorization':
+            'Bearer Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJWaW9sZXQuRGFuaWVsMTdAeWFob28uY29tIiwiZmlyc3RfbmFtZSI6IlJpY2FyZG8iLCJsYXN0X25hbWUiOiJOYXZhcnJvIiwiYmlydGhkYXkiOiIyMDIyLTAzLTE1VDAwOjAwOjAwLjAwMFoiLCJ1c2VyX3R5cGUiOiJ1c2VyIiwidXBkYXRlZEF0IjoiMjAyNC0wNC0xOVQyMDo1NTo0OC43MzFaIiwiY3JlYXRlZEF0IjoiMjAyNC0wNC0xOVQyMDo1NTo0OC43MzFaIiwiaWF0IjoxNzEzNTYwMTQ4LCJleHAiOjE3MTM1NjE5NDh9.S_93rib7v1NmNpzuj_atrStmT1tagwP5zq4ESh7WUZo',
+        'Accept': '*/*',
+        'jwt': '$token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final dynamic jsonData = jsonDecode(response.body);
+      if (jsonData.containsKey('events') && jsonData['events'] is List) {
+        setState(() {
+          Partidos = (jsonData['events'] as List)
+              .map((x) => Partido(
+                    id: x['id'].toString(),
+                    nombre: x['name'],
+                    fecha: x['start_date'],
+                  ))
+              .toList();
+        });
+      } else {
+        // Manejar el caso donde 'events' no está presente o no es una lista
+        print('La respuesta no contiene una lista de Partidos válida.');
+      }
+    } else {
+      // Mostrar un mensaje de error si la solicitud falla
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to load Partidos'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Partidos',
-            //textAlign: Center(),
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: 25)),
-        backgroundColor: Colors.green[700],
+        title: Text('Partidos'),
       ),
       body: ListView.builder(
-        itemCount: partidos.length,
+        itemCount: Partidos.length,
         itemBuilder: (context, index) {
-          final partido = partidos[index];
+          final Partido = Partidos[index];
           return ListTile(
-            title: Text('ID: ${partido.id}, Hora: ${partido.time}'),
+            title: Text(
+                'ID: ${Partido.id}, Nombre: ${Partido.nombre}, Fecha: ${Partido.fecha}'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetallePartidoScreen(partido: partido),
+                  builder: (context) => DetallePartidoScreen(partido: Partido),
                 ),
               );
             },
@@ -103,18 +138,21 @@ class DetallePartidoScreen extends StatelessWidget {
             style: TextStyle(fontSize: 20),
           ),
           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // L�gica para participar en el partido
-            },
-            child: Text('Participar'),
+          Text(
+            'Nombre del Partido: ${partido.nombre}',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Fecha del Partido: ${partido.fecha}',
+            style: TextStyle(fontSize: 20),
           ),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // L�gica para ver el partido
+              // Lógica para participar en el Partido
             },
-            child: Text('Ver'),
+            child: Text('Participar'),
           ),
         ],
       ),
