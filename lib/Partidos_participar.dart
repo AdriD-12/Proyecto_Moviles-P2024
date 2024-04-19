@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:proyecto/constants.dart';
+import 'package:proyecto/aviso_confirmacion.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,7 +41,7 @@ class PartidosScreen extends StatelessWidget {
   final List<Partido> partidos = _parsePartidos();
 
   static List<Partido> _parsePartidos() {
-    final jsonData = jsonDecode(CATALOGO_PARTIDOS);
+    final jsonData = jsonDecode(CATALOGO_PARTIDOS_PARTICIPAR);
     return List<Partido>.from(jsonData.map((x) => Partido(
           id: x['id'],
           time: x['time'],
@@ -106,6 +107,10 @@ class DetallePartidoScreen extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               // L�gica para participar en el partido
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AvisoConfirmPage()),
+              );
             },
             child: Text('Participar'),
           ),
