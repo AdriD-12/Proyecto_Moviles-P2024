@@ -9,7 +9,12 @@
 .history
 .svn/
 migrate_working_dir/
-
+android/
+ios/
+linux/
+macos/
+web/
+windows/
 # IntelliJ related
 *.iml
 *.ipr
@@ -41,3 +46,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+node_modules

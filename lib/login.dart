@@ -4,6 +4,9 @@ import 'package:http/http.dart' as http;
 import 'dashboard.dart';
 import 'registro.dart';
 import 'aviso.dart';
+import 'package:proyecto/Partidos.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:proyecto/shared_preferences.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -143,8 +146,21 @@ class LoginPage extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
-        print('Token: ${jsonResponse['token']}');
+        String token = jsonResponse['token'];
+
+        // Guardar el token en SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', token);
+        String? tokent = await AuthService.getToken();
+
+        if (tokent != null) {
+          print('El token guardado es: $tokent');
+        } else {
+          print('No se encontró ningún token guardado.');
+        }
+
+        print('Token: $token');
+        // Redirigir a la página Partidos.dart
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -152,6 +168,7 @@ class LoginPage extends StatelessWidget {
           ),
         );
       } else if (response.statusCode == 400) {
+        // Mostrar un mensaje de error
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error en el correo o contraseña'),
