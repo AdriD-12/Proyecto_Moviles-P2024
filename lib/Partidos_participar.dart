@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:proyecto/constants.dart';
+import 'package:proyecto/aviso_confirmacion.dart';
 import 'package:http/http.dart' as http;
 import 'package:proyecto/shared_preferences.dart';
 
@@ -136,14 +138,15 @@ class DetallePartidoScreen extends StatelessWidget {
             style: TextStyle(fontSize: 20),
           ),
           SizedBox(height: 20),
-          Text(
-            'Nombre del Partido: ${partido.nombre}',
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Fecha del Partido: ${partido.fecha}',
-            style: TextStyle(fontSize: 20),
+          ElevatedButton(
+            onPressed: () {
+              // L�gica para participar en el partido
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AvisoConfirmPage()),
+              );
+            },
+            child: Text('Participar'),
           ),
           SizedBox(height: 20),
           ElevatedButton(
