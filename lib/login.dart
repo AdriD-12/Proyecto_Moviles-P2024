@@ -4,11 +4,11 @@ import 'package:http/http.dart' as http;
 import 'dashboard.dart';
 import 'registro.dart';
 import 'aviso.dart';
-import 'package:proyecto/Partidos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:proyecto/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env"); // Load .env file
   runApp(MaterialApp(
     home: LoginPage(),
   ));
@@ -60,8 +60,7 @@ class LoginPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                  color:
-                      Colors.black.withOpacity(0.5), // Fondo semi-transparente
+                  color: Colors.black.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Text(
@@ -133,7 +132,8 @@ class LoginPage extends StatelessWidget {
   }
 
   _login(BuildContext context) async {
-    final url = Uri.parse('http://192.168.100.30:8080/api/auth');
+    final String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    final url = Uri.parse('$apiUrl/auth');
 
     try {
       final response = await http.post(
@@ -146,18 +146,12 @@ class LoginPage extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
-        String token = jsonResponse['token'];
+        final responseData = json.decode(response.body);
+        String token = responseData['token'];
 
         // Guardar el token en SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', token);
-        String? tokent = await AuthService.getToken();
-
-        if (tokent != null) {
-          print('El token guardado es: $tokent');
-        } else {
-          print('No se encontró ningún token guardado.');
-        }
 
         print('Token: $token');
         // Redirigir a la página Partidos.dart
