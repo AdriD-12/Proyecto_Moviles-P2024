@@ -267,8 +267,6 @@ class MyHomePage extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: RichText(
-                                  textScaleFactor:
-                                      MediaQuery.of(context).textScaleFactor,
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
@@ -290,13 +288,13 @@ class MyHomePage extends StatelessWidget {
                                       )
                                     ],
                                   ),
+                                  textScaler: TextScaler.linear(
+                                      MediaQuery.of(context).textScaleFactor),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: RichText(
-                                  textScaleFactor:
-                                      MediaQuery.of(context).textScaleFactor,
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
@@ -318,6 +316,8 @@ class MyHomePage extends StatelessWidget {
                                       )
                                     ],
                                   ),
+                                  textScaler: TextScaler.linear(
+                                      MediaQuery.of(context).textScaleFactor),
                                 ),
                               ),
                             ],
