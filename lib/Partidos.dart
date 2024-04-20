@@ -54,10 +54,8 @@ class _PartidosScreenState extends State<PartidosScreen> {
     }
 
     final response = await http.get(
-      Uri.parse('http://192.168.50.29:8080/api/event'),
+      Uri.parse('http://192.168.1.94:8080/api/event'),
       headers: {
-        'Authorization':
-            'Bearer Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJWaW9sZXQuRGFuaWVsMTdAeWFob28uY29tIiwiZmlyc3RfbmFtZSI6IlJpY2FyZG8iLCJsYXN0X25hbWUiOiJOYXZhcnJvIiwiYmlydGhkYXkiOiIyMDIyLTAzLTE1VDAwOjAwOjAwLjAwMFoiLCJ1c2VyX3R5cGUiOiJ1c2VyIiwidXBkYXRlZEF0IjoiMjAyNC0wNC0xOVQyMDo1NTo0OC43MzFaIiwiY3JlYXRlZEF0IjoiMjAyNC0wNC0xOVQyMDo1NTo0OC43MzFaIiwiaWF0IjoxNzEzNTYwMTQ4LCJleHAiOjE3MTM1NjE5NDh9.S_93rib7v1NmNpzuj_atrStmT1tagwP5zq4ESh7WUZo',
         'Accept': '*/*',
         'jwt': '$token',
       },

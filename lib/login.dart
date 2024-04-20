@@ -103,7 +103,7 @@ class LoginPage extends StatelessWidget {
   }
 
   _login(BuildContext context) async {
-    final url = Uri.parse('http://192.168.50.29:8080/api/auth');
+    final url = Uri.parse('http://192.168.1.94:8080/api/auth');
 
     try {
       final response = await http.post(
