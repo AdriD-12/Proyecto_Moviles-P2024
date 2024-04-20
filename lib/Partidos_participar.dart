@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:proyecto/constants.dart';
 import 'package:proyecto/aviso_confirmacion.dart';
 import 'package:http/http.dart' as http;
 import 'package:proyecto/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,6 +49,7 @@ class _PartidosScreenState extends State<PartidosScreen> {
   }
 
   Future<void> _fetchPartidos() async {
+    String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
     String? token = await AuthService.getToken();
     if (token == null) {
       print('No se encontró ningún token guardado.');
@@ -56,7 +57,7 @@ class _PartidosScreenState extends State<PartidosScreen> {
     }
 
     final response = await http.get(
-      Uri.parse('http://192.168.1.94:8080/api/event'),
+      Uri.parse('$apiUrl/event'),
       headers: {
         'Accept': '*/*',
         'jwt': '$token',

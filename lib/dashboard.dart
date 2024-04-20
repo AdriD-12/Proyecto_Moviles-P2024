@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:proyecto/Partidos.dart';
 import 'package:proyecto/login.dart';
+import 'Partidos_asistir.dart';
 
 void main() {
   runApp(MyApp());
