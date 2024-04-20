@@ -4,7 +4,7 @@ import 'package:proyecto/constants.dart';
 import 'package:proyecto/aviso_confirmacion.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(PartidoAsisPage());
 }
 
 // Clase para representar un partido
@@ -24,7 +24,7 @@ class Partido {
   });
 }
 
-class MyApp extends StatelessWidget {
+class PartidoAsisPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

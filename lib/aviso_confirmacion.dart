@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'registro.dart';
+import 'Partidos_asistir.dart';
 
 void main() {
   runApp(AvisoConfirmPage());
@@ -46,7 +46,7 @@ class AvisoPrivacidadScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               Text(
-                'Version: Minimo Producto Viable - Se recomienda leer el siguiente aviso de privacidad antes de empezar a usar la aplicacion www.avisoprivacidad.com - Para mas informacion sobre el uso de la app o algun error de la misma favor de comunicarse con el staff del evento, el le dara la informacion que usted requiera. -Gracias por utilizar la aplicacion =D - A presionar aceptar, esta diciendo que a leido y ????a los Terminos de Uso y Condiciones, estas se pueden encontrar en www.avisoprivacidad.com ',
+                'Gracias por registrarte! El partido tal tal ',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18.0),
               ),
@@ -56,7 +56,7 @@ class AvisoPrivacidadScreen extends StatelessWidget {
                   // Navegar a la p�gina de registro
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                    MaterialPageRoute(builder: (context) => PartidoAsisPage()),
                   );
                 },
                 child: Text('Aceptar'),
