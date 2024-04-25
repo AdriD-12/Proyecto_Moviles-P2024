@@ -1,20 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dashboard.dart';
-import 'registro.dart';
-import 'aviso.dart';
+import 'package:proyecto/src/components/dashboard_component.dart';
+import 'package:proyecto/src/components/register_component.dart';
+import 'package:proyecto/src/pages/declaration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
-  await dotenv.load(fileName: ".env"); // Load .env file
-  runApp(MaterialApp(
-    home: LoginPage(),
-  ));
-}
-
-class LoginPage extends StatelessWidget {
+class LoginComponent extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -110,7 +103,8 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                    MaterialPageRoute(
+                        builder: (context) => RegisterComponent()),
                   );
                 },
                 child: Text(
@@ -158,7 +152,7 @@ class LoginPage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'HOME'),
+            builder: (context) => DashboardComponent(title: 'HOME'),
           ),
         );
       } else if (response.statusCode == 400) {
@@ -182,7 +176,7 @@ class LoginPage extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AvisoPrivacidadPage()),
+          MaterialPageRoute(builder: (context) => DeclarationPage()),
         );
       },
       child: Text(

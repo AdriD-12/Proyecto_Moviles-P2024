@@ -1,40 +1,29 @@
 import 'package:flutter/material.dart';
-import 'aviso.dart';
-import 'login.dart'; // Importa el archivo login.dart
+import 'package:proyecto/src/components/login_component.dart';
+import 'package:proyecto/src/pages/declaration.dart';
 
-void main() {
-  runApp(RegisterPage());
-}
-
-class RegisterPage extends StatelessWidget {
+class RegisterComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Registro'),
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 20),
-              Text(
-                '¡Regístrate para comenzar!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Expanded(
-                child: RegisterForm(),
-              ),
-            ],
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 20),
+          Text(
+            '¡Regístrate para comenzar!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
-        ),
+          SizedBox(height: 20),
+          Expanded(
+            child: RegisterForm(),
+          ),
+        ],
       ),
     );
   }
@@ -61,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
       print('Información almacenada');
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => LoginComponent()),
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -205,7 +194,7 @@ class _RegisterFormState extends State<RegisterForm> {
               // Navegar a la pantalla de inicio de sesión
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
+                MaterialPageRoute(builder: (context) => LoginComponent()),
               );
             },
             child: Text('Volver a Iniciar Sesión'),
@@ -223,7 +212,7 @@ class _RegisterFormState extends State<RegisterForm> {
               // Navegar a la pantalla de aviso de privacidad
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AvisoPrivacidadPage()),
+                MaterialPageRoute(builder: (context) => DeclarationPage()),
               );
             },
             child: Text(

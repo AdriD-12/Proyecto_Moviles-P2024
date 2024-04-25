@@ -1,66 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:proyecto/login.dart';
-import 'Partidos_asistir.dart';
+import 'package:proyecto/src/components/lateral_menu_component.dart';
+import 'package:proyecto/src/pages/login.dart';
+import 'package:proyecto/src/pages/match_player.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class PieChartWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 120,
-      height: 120,
-      child: PieChart(
-        PieChartData(
-          sections: [
-            PieChartSectionData(
-              color: Colors.blue,
-              value: 5,
-              title: '',
-              radius: 30,
-            ),
-            PieChartSectionData(
-              color: Colors.red,
-              value: 2,
-              title: '',
-              radius: 30,
-            ),
-          ],
-          borderData: FlBorderData(show: false),
-          sectionsSpace: 0,
-          centerSpaceRadius: 0,
-        ),
-      ),
-    );
-  }
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
-      theme: ThemeData(
-          // useMaterial3: false,
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: Color.fromARGB(142, 46, 141, 51)),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Info Partidos'),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
+class DashboardComponent extends StatelessWidget {
   final String title;
-  const MyHomePage({super.key, required this.title});
+  const DashboardComponent({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -86,19 +32,19 @@ class MyHomePage extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: <Widget>[
-                  ListDrawer(
-                    data1: "Partidos",
+                  LateralMenuComponent(
+                    placeholder: "Partidos",
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                PartidosScreen()), // Redirige a la página Partidos.dart
+                                MatchPlayerPage()), // Redirige a la página Partidos.dart
                       );
                     },
                   ),
-                  ListDrawer(
-                    data1: "LogOut",
+                  LateralMenuComponent(
+                    placeholder: "LogOut",
                     onTap: () {
                       Navigator.push(
                         context,
@@ -417,24 +363,31 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class ListDrawer extends StatelessWidget {
-  final String data1;
-  final VoidCallback onTap; // Define un VoidCallback onTap
-  const ListDrawer({Key? key, required this.data1, required this.onTap})
-      : super(key: key);
+class PieChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap, // Asigna el onTap proporcionado
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          color: Colors.grey[200],
-        ),
-        margin: const EdgeInsets.only(bottom: 5, left: 3.0, right: 3.0),
-        child: ListTile(
-          title: Text(data1),
-          leading: Icon(Icons.sports_soccer),
+    return SizedBox(
+      width: 120,
+      height: 120,
+      child: PieChart(
+        PieChartData(
+          sections: [
+            PieChartSectionData(
+              color: Colors.blue,
+              value: 5,
+              title: '',
+              radius: 30,
+            ),
+            PieChartSectionData(
+              color: Colors.red,
+              value: 2,
+              title: '',
+              radius: 30,
+            ),
+          ],
+          borderData: FlBorderData(show: false),
+          sectionsSpace: 0,
+          centerSpaceRadius: 0,
         ),
       ),
     );

@@ -1,22 +1,7 @@
 import 'package:flutter/material.dart';
-import 'registro.dart';
+import 'package:proyecto/src/components/register_component.dart';
 
-void main() {
-  runApp(AvisoPrivacidadPage());
-}
-
-class AvisoPrivacidadPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: AvisoPrivacidadScreen(),
-      ),
-    );
-  }
-}
-
-class AvisoPrivacidadScreen extends StatelessWidget {
+class DeclarationComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -56,7 +41,8 @@ class AvisoPrivacidadScreen extends StatelessWidget {
                   // Navegar a la p�gina de registro
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                    MaterialPageRoute(
+                        builder: (context) => RegisterComponent()),
                   );
                 },
                 child: Text('Aceptar'),
@@ -71,19 +57,3 @@ class AvisoPrivacidadScreen extends StatelessWidget {
     );
   }
 }
-
-/*
-class RegisterPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Registro'),
-      ),
-      body: Center(
-        child: Text('P�gina de Registro'),
-      ),
-    );
-  }
-}
-*/
