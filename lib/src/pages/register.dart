@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'declaration.dart';
-import 'login.dart'; // Importa el archivo login.dart
+import 'package:proyecto/src/components/register_component.dart';
 
 void main() async {
   print("Open Register");
