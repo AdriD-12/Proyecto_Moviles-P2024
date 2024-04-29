@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-class LateralMenuComponent extends StatelessWidget {
+class DrawerRow extends StatelessWidget {
   final String placeholder;
   final VoidCallback onTap; // Define un VoidCallback onTap
-  const LateralMenuComponent(
-      {Key? key, required this.placeholder, required this.onTap})
+  const DrawerRow({Key? key, required this.placeholder, required this.onTap})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

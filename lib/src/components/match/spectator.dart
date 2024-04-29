@@ -20,33 +20,22 @@ class MatchListComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Partidos',
-            //textAlign: Center(),
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: 25)),
-        backgroundColor: Colors.green[700],
-      ),
-      body: ListView.builder(
-        itemCount: partidos.length,
-        itemBuilder: (context, index) {
-          final partido = partidos[index];
-          return ListTile(
-            title: Text('ID: ${partido.id}, Hora: ${partido.time}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MatchDetail(partido: partido),
-                ),
-              );
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: partidos.length,
+      itemBuilder: (context, index) {
+        final partido = partidos[index];
+        return ListTile(
+          title: Text('ID: ${partido.id}, Hora: ${partido.time}'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MatchDetail(partido: partido),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

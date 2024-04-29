@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto/src/components/register_component.dart';
+import 'package:proyecto/src/pages/register.dart';
 
 class DeclarationComponent extends StatelessWidget {
   @override
@@ -41,8 +41,7 @@ class DeclarationComponent extends StatelessWidget {
                   // Navegar a la p�gina de registro
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => RegisterComponent()),
+                    MaterialPageRoute(builder: (context) => RegisterPage()),
                   );
                 },
                 child: Text('Aceptar'),

@@ -65,28 +65,23 @@ class _MatchListComponentState extends State<MatchListComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Partidos'),
-      ),
-      body: ListView.builder(
-        itemCount: Partidos.length,
-        itemBuilder: (context, index) {
-          final Partido = Partidos[index];
-          return ListTile(
-            title: Text(
-                'ID: ${Partido.id}, Nombre: ${Partido.nombre}, Fecha: ${Partido.fecha}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MatchDetail(partido: Partido),
-                ),
-              );
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: Partidos.length,
+      itemBuilder: (context, index) {
+        final Partido = Partidos[index];
+        return ListTile(
+          title: Text(
+              'ID: ${Partido.id}, Nombre: ${Partido.nombre}, Fecha: ${Partido.fecha}'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MatchDetail(partido: Partido),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

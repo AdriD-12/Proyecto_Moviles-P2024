@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyecto/src/components/dashboard_component.dart';
-import 'package:proyecto/src/components/register_component.dart';
+import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/declaration.dart';
+import 'package:proyecto/src/pages/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -103,8 +103,7 @@ class LoginComponent extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => RegisterComponent()),
+                    MaterialPageRoute(builder: (context) => RegisterPage()),
                   );
                 },
                 child: Text(
@@ -152,7 +151,7 @@ class LoginComponent extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DashboardComponent(title: 'HOME'),
+            builder: (context) => DashboardPage(),
           ),
         );
       } else if (response.statusCode == 400) {
