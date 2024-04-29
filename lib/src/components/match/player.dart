@@ -1,54 +1,26 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:proyecto/aviso_confirmacion.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyecto/shared_preferences.dart';
+import 'package:proyecto/src/abstract/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:proyecto/src/abstract/match_row.dart';
+import 'package:proyecto/src/pages/privacy.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class Partido {
-  final String id;
-  final String nombre;
-  final String fecha;
-
-  Partido({
-    required this.id,
-    required this.nombre,
-    required this.fecha,
-  });
-}
-
-class MyApp extends StatelessWidget {
+class MatchListComponent extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Lista de Partidos',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: PartidosScreen(),
-    );
-  }
+  _MatchListComponentState createState() => _MatchListComponentState();
 }
 
-class PartidosScreen extends StatefulWidget {
-  @override
-  _PartidosScreenState createState() => _PartidosScreenState();
-}
-
-class _PartidosScreenState extends State<PartidosScreen> {
-  List<Partido> Partidos = [];
+class _MatchListComponentState extends State<MatchListComponent> {
+  List<MatchRow> Partidos = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchPartidos();
+    _fetchMatches();
   }
 
-  Future<void> _fetchPartidos() async {
+  Future<void> _fetchMatches() async {
     String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
     String? token = await AuthService.getToken();
     if (token == null) {
@@ -69,7 +41,7 @@ class _PartidosScreenState extends State<PartidosScreen> {
       if (jsonData.containsKey('events') && jsonData['events'] is List) {
         setState(() {
           Partidos = (jsonData['events'] as List)
-              .map((x) => Partido(
+              .map((x) => MatchRow(
                     id: x['id'].toString(),
                     nombre: x['name'],
                     fecha: x['start_date'],
@@ -93,36 +65,31 @@ class _PartidosScreenState extends State<PartidosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Partidos'),
-      ),
-      body: ListView.builder(
-        itemCount: Partidos.length,
-        itemBuilder: (context, index) {
-          final Partido = Partidos[index];
-          return ListTile(
-            title: Text(
-                'ID: ${Partido.id}, Nombre: ${Partido.nombre}, Fecha: ${Partido.fecha}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetallePartidoScreen(partido: Partido),
-                ),
-              );
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: Partidos.length,
+      itemBuilder: (context, index) {
+        final Partido = Partidos[index];
+        return ListTile(
+          title: Text(
+              'ID: ${Partido.id}, Nombre: ${Partido.nombre}, Fecha: ${Partido.fecha}'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MatchDetail(partido: Partido),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
 
-class DetallePartidoScreen extends StatelessWidget {
-  final Partido partido;
+class MatchDetail extends StatelessWidget {
+  final MatchRow partido;
 
-  DetallePartidoScreen({required this.partido});
+  MatchDetail({required this.partido});
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +111,7 @@ class DetallePartidoScreen extends StatelessWidget {
               // L�gica para participar en el partido
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AvisoConfirmPage()),
+                MaterialPageRoute(builder: (context) => PrivacyPage()),
               );
             },
             child: Text('Participar'),
