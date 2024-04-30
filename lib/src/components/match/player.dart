@@ -32,7 +32,7 @@ class _MatchListComponentState extends State<MatchListComponent> {
       Uri.parse('$apiUrl/event'),
       headers: {
         'Accept': '*/*',
-        'jwt': '$token',
+        'authorization': 'Bearer $token',
       },
     );
 
