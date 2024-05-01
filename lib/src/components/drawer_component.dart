@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/src/components/drawer_row.dart';
+import 'package:proyecto/src/pages/courts_selection.dart';
 import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/match_player.dart';
 import 'package:proyecto/src/pages/registro_equipo.dart';
 import 'package:proyecto/src/pages/match_spectator.dart';
@@ -43,13 +43,24 @@ class DrawerComponent extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 DrawerRow(
-                  placeholder: "Home",
+                  placeholder: "HOME",
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               DashboardPage()), // Redirige a la página Partidos.dart
+                    );
+                  },
+                ),
+                DrawerRow(
+                  placeholder: "Map",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CourtsSelectionPage(),
+                      ),
                     );
                   },
                 ),

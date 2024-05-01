@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/components/drawer_component.dart';
-import 'package:proyecto/src/components/match/spectator.dart';
+import 'package:proyecto/src/components/match/eventslist.dart';
 
 void main() async {
   print("Open Match to Attend");
@@ -13,15 +13,15 @@ class MatchSpectatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Events',
+      title: 'Tournaments',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Events'),
+          title: Text('Tournaments'),
         ),
-        body: MatchListComponent(),
+        body: EventsListComponent(),
         drawer: DrawerComponent(),
       ),
     );
