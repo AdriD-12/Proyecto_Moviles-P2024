@@ -1,6 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/declaration.dart';
 import 'package:proyecto/src/pages/login.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterComponent extends StatelessWidget {
   @override
@@ -58,28 +63,86 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nombreController = TextEditingController();
-  final _apellidoPaternoController = TextEditingController();
-  final _apellidoMaternoController = TextEditingController();
   final _emailController = TextEditingController();
+  final _firstnameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final _birthdayController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _generoController = TextEditingController();
-  final _fechaNacimientoController = TextEditingController();
+  bool _declarationCheck = false;
 
-  void _submitForm() {
-    if (_formKey.currentState?.validate() ?? true) {
-      print('InformaciÃ³n almacenada');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
-      );
+  _register(BuildContext context) async {
+    final String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    final url = Uri.parse('$apiUrl/register');
+
+    if (!(_formKey.currentState?.validate() ?? false)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('El usuario ha sido generado.'),
-          backgroundColor: Colors.green,
+          content: Text('Datos ingresados no válidos'),
+          backgroundColor: Colors.red,
         ),
       );
+      return;
+    }
+
+    if (!_declarationCheck) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Favor de aceptar términos y condiciones'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'email': _emailController.text,
+          'password': _passwordController.text,
+          'first_name': _firstnameController.text,
+          'last_name': _lastnameController.text,
+          'birthday': _birthdayController.text
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        String token = responseData['token'];
+
+        // Guardar el token en SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', token);
+
+        print('Token: $token');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('El usuario ha sido generado.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        // Redirigir a la pÃ¡gina Partidos.dart
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashboardPage(),
+          ),
+        );
+      } else if (response.statusCode == 400) {
+        // Mostrar un mensaje de error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Datos ingresados no válidos'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else {
+        print('Failed to register: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
     }
   }
 
@@ -92,7 +155,7 @@ class _RegisterFormState extends State<RegisterForm> {
           padding: EdgeInsets.all(16.0),
           children: [
             TextFormField(
-              controller: _nombreController,
+              controller: _firstnameController,
               decoration: InputDecoration(
                 labelText: 'Nombre',
                 border: OutlineInputBorder(
@@ -108,19 +171,9 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             SizedBox(height: 10),
             TextFormField(
-              controller: _apellidoPaternoController,
+              controller: _lastnameController,
               decoration: InputDecoration(
                 labelText: 'Apellido Paterno',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: _apellidoMaternoController,
-              decoration: InputDecoration(
-                labelText: 'Apellido Materno',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -181,17 +234,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             SizedBox(height: 10),
             TextFormField(
-              controller: _generoController,
-              decoration: InputDecoration(
-                labelText: 'GÃ©nero',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: _fechaNacimientoController,
+              controller: _birthdayController,
               decoration: InputDecoration(
                 labelText: 'Fecha de Nacimiento',
                 border: OutlineInputBorder(
@@ -200,8 +243,33 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
             ),
             SizedBox(height: 20),
+            Checkbox(
+              checkColor: Colors.white,
+              fillColor: MaterialStateProperty.all(Colors.green),
+              value: _declarationCheck,
+              onChanged: (bool? value) {
+                setState(() {
+                  _declarationCheck = value ?? false;
+                });
+              },
+            ),
+            InkWell(
+              onTap: () {
+                // Navegar a la pantalla de aviso de privacidad
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DeclarationPage()),
+                );
+              },
+              child: Text(
+                'Aviso de Privacidad',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+            SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _submitForm,
+              onPressed: () => _register(context),
               child: Text('Aceptar'),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16),
@@ -227,21 +295,6 @@ class _RegisterFormState extends State<RegisterForm> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-              ),
-            ),
-            SizedBox(height: 20),
-            InkWell(
-              onTap: () {
-                // Navegar a la pantalla de aviso de privacidad
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DeclarationPage()),
-                );
-              },
-              child: Text(
-                'Aviso de Privacidad',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.blue),
               ),
             ),
           ],
