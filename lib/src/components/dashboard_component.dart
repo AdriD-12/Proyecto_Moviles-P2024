@@ -46,7 +46,7 @@ class DashboardComponent extends StatelessWidget {
                   child: Align(
                     alignment: AlignmentDirectional(0, 0),
                     child: Text(
-                      'Siguiente Partido: Quijotes',
+                      'Next Match: Quijotes',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'Readex Pro',
@@ -74,7 +74,7 @@ class DashboardComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Cancha',
+                            'Court',
                             style: const TextStyle(
                               fontFamily: 'Readex Pro',
                               fontSize: 24,
@@ -110,7 +110,7 @@ class DashboardComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Hora Aprox',
+                            'Approximate Time',
                             style: const TextStyle(
                               fontFamily: 'Readex Pro',
                               fontSize: 24,
@@ -191,7 +191,7 @@ class DashboardComponent extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '- Ganados',
+                                      text: '- Wins',
                                       style: TextStyle(
                                         fontSize: 25,
                                         color: Colors.black,
@@ -219,7 +219,7 @@ class DashboardComponent extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: ' - Perdidos',
+                                      text: ' - Losses',
                                       style: TextStyle(
                                         fontSize: 25,
                                         color: Colors.black,
@@ -256,7 +256,7 @@ class DashboardComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Goles totales',
+                            'Total Goals',
                             style: const TextStyle(
                               fontFamily: 'Readex Pro',
                               fontSize: 24,
@@ -292,7 +292,7 @@ class DashboardComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            'Posición',
+                            'Position',
                             style: const TextStyle(
                               fontFamily: 'Readex Pro',
                               fontSize: 24,
@@ -305,7 +305,7 @@ class DashboardComponent extends StatelessWidget {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 10, 0, 0),
                               child: Text(
-                                '5°',
+                                '5�',
                                 style: const TextStyle(
                                   fontFamily: 'Readex Pro',
                                   fontSize: 58,

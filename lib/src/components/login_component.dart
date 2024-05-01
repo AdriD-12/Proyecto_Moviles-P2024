@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:proyecto/src/pages/dashboard.dart';
-import 'package:proyecto/src/pages/declaration.dart';
 import 'package:proyecto/src/pages/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -57,7 +56,7 @@ class LoginComponent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Text(
-                  'Bienvenido a GOAL',
+                  'Welcome to GOAL',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -70,7 +69,7 @@ class LoginComponent extends StatelessWidget {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  hintText: 'Correo',
+                  hintText: 'Email',
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.5),
                   border: OutlineInputBorder(
@@ -84,7 +83,7 @@ class LoginComponent extends StatelessWidget {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: 'Contraseña',
+                  hintText: 'Password',
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.5),
                   border: OutlineInputBorder(
@@ -96,7 +95,7 @@ class LoginComponent extends StatelessWidget {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () => _login(context),
-                child: Text('Iniciar Sesión'),
+                child: Text('Login'),
               ),
               SizedBox(height: 20.0),
               TextButton(
@@ -107,7 +106,7 @@ class LoginComponent extends StatelessWidget {
                   );
                 },
                 child: Text(
-                  '¿Eres nuevo? ¡Regístrate aquí!',
+                  'Are you new? Register here!',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -115,8 +114,6 @@ class LoginComponent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
-              _buildPrivacyPolicyLink(context),
             ],
           ),
         ),
@@ -158,7 +155,7 @@ class LoginComponent extends StatelessWidget {
         // Mostrar un mensaje de error
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error en el correo o contraseña'),
+            content: Text('There is an error in the email or password.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -168,21 +165,5 @@ class LoginComponent extends StatelessWidget {
     } catch (e) {
       print('Error: $e');
     }
-  }
-
-  Widget _buildPrivacyPolicyLink(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DeclarationPage()),
-        );
-      },
-      child: Text(
-        'Aviso de Privacidad',
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
   }
 }

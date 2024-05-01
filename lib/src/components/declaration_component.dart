@@ -24,7 +24,7 @@ class DeclarationComponent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Aviso de Privacidad',
+                'Privacy Notice',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -32,7 +32,7 @@ class DeclarationComponent extends StatelessWidget {
               ),
               SizedBox(height: 20.0),
               Text(
-                'Version: Minimo Producto Viable - Se recomienda leer el siguiente aviso de privacidad antes de empezar a usar la aplicacion www.avisoprivacidad.com - Para mas informacion sobre el uso de la app o algun error de la misma favor de comunicarse con el staff del evento, el le dara la informacion que usted requiera. -Gracias por utilizar la aplicacion =D - A presionar aceptar, esta diciendo que a leido y ????a los Terminos de Uso y Condiciones, estas se pueden encontrar en www.avisoprivacidad.com ',
+                'Version: Minimum Viable Product - It is recommended to read the following privacy notice before starting to use the application www.privacynotice.com - For more information about the use of the app or any issues with it, please contact the event staff, they will provide you with the information you require. -Thank you for using the application =D - By pressing accept, you are stating that you have read and accepted the Terms of Use and Conditions, which can be found at www.privacynotice.com',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18.0),
               ),
@@ -45,21 +45,7 @@ class DeclarationComponent extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => RegisterPage()),
                   );
                 },
-                child: Text('Aceptar'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                ),
-              ),
-              SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Navegar a la p�gina de registro
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-                child: Text('Cancelar'),
+                child: Text('Close'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                 ),

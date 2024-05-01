@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto/src/components/registro_equipo_component.dart';
+import 'package:proyecto/src/components/drawer_component.dart';
+import 'package:proyecto/src/components/register_team_component.dart';
 
 void main() {
   String? scannedCode = "asdasd";
@@ -19,6 +20,7 @@ class RegisterTeam extends StatelessWidget {
           title: Text('Register Team'),
         ),
         body: RegisterTeamComponent(scannedCode: scannedCode),
+        drawer: DrawerComponent(),
       ),
     );
   }

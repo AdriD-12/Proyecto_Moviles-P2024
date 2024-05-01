@@ -18,7 +18,7 @@ class DashboardPage extends StatelessWidget {
             scaffoldBackgroundColor: Color.fromARGB(142, 46, 141, 51)),
         home: Scaffold(
           appBar: AppBar(
-            title: Text('Registro'),
+            title: Text('Register'),
           ),
           body: DashboardComponent(),
           drawer: DrawerComponent(),
