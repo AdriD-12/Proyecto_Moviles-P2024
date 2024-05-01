@@ -57,7 +57,7 @@ class LoginComponent extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Text(
-                  'Bienvenido a GOAL',
+                  'Welcome to GOAL',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class LoginComponent extends StatelessWidget {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  hintText: 'Correo',
+                  hintText: 'Email',
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.5),
                   border: OutlineInputBorder(
@@ -84,7 +84,7 @@ class LoginComponent extends StatelessWidget {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: 'Contraseña',
+                  hintText: 'Password',
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.5),
                   border: OutlineInputBorder(
@@ -96,7 +96,7 @@ class LoginComponent extends StatelessWidget {
               SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () => _login(context),
-                child: Text('Iniciar Sesión'),
+                child: Text('Login'),
               ),
               SizedBox(height: 20.0),
               TextButton(
@@ -107,7 +107,7 @@ class LoginComponent extends StatelessWidget {
                   );
                 },
                 child: Text(
-                  '¿Eres nuevo? ¡Regístrate aquí!',
+                  'Are you new? Register here!',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -115,8 +115,6 @@ class LoginComponent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
-              _buildPrivacyPolicyLink(context),
             ],
           ),
         ),
@@ -158,7 +156,7 @@ class LoginComponent extends StatelessWidget {
         // Mostrar un mensaje de error
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error en el correo o contraseña'),
+            content: Text('There is an error in the email or password.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -170,19 +168,4 @@ class LoginComponent extends StatelessWidget {
     }
   }
 
-  Widget _buildPrivacyPolicyLink(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DeclarationPage()),
-        );
-      },
-      child: Text(
-        'Aviso de Privacidad',
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
 }
