@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/src/components/drawer_row.dart';
+import 'package:proyecto/src/pages/courts_selection.dart';
 import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,7 +44,7 @@ class DrawerComponent extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 DrawerRow(
-                  placeholder: "Home",
+                  placeholder: "HOME",
                   onTap: () {
                     Navigator.push(
                       context,
@@ -54,7 +55,18 @@ class DrawerComponent extends StatelessWidget {
                   },
                 ),
                 DrawerRow(
-                  placeholder: "Ver Torneo",
+                  placeholder: "Map",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CourtsSelectionPage(),
+                      ),
+                    );
+                  },
+                ),
+                DrawerRow(
+                  placeholder: "TORNEOS",
                   onTap: () {
                     Navigator.push(
                       context,
@@ -76,7 +88,7 @@ class DrawerComponent extends StatelessWidget {
                   },
                 ),
                 DrawerRow(
-                  placeholder: "Registro de equipo",
+                  placeholder: "REGISTRO DE EQUIPO",
                   onTap: () {
                     Navigator.push(
                       context,
@@ -88,7 +100,7 @@ class DrawerComponent extends StatelessWidget {
                 ),
                 DrawerRow(
                   placeholder:
-                      "Cerrar Sesión", // Texto para el botón de cierre de sesión
+                      "Logout", // Texto para el botón de cierre de sesión
                   onTap: () =>
                       _logout(context), // Llama al método de cierre de sesión
                 ),

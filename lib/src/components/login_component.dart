@@ -116,7 +116,6 @@ class LoginComponent extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.0),
-              _buildPrivacyPolicyLink(context),
             ],
           ),
         ),
@@ -168,21 +167,5 @@ class LoginComponent extends StatelessWidget {
     } catch (e) {
       print('Error: $e');
     }
-  }
-
-  Widget _buildPrivacyPolicyLink(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DeclarationPage()),
-        );
-      },
-      child: Text(
-        'Aviso de Privacidad',
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
   }
 }

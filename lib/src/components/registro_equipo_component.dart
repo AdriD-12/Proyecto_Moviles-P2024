@@ -16,56 +16,59 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SizedBox(height: 20),
-        TextFormField(
-          controller: _codeController,
-          decoration: InputDecoration(
-            labelText: 'Ingresar código',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            // Aquí puedes implementar la lógica para consultar la base de datos
-            String code = _codeController.text;
-            print('Consultar base de datos con el código: $code');
-          },
-          child: Text('Consultar'),
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _isScanning = true;
-            });
-          },
-          child: Text('Escanear código QR'),
-        ),
-        if (_isScanning)
-          Expanded(
-            child: QRView(
-              key: _qrKey,
-              onQRViewCreated: _onQRViewCreated,
-            ),
-          ),
-        /*if (_scannedCode.isNotEmpty) // Mostrar mensaje de escaneo exitoso
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Escaneo exitoso: $_scannedCode',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 20),
+          TextFormField(
+            controller: _codeController,
+            decoration: InputDecoration(
+              labelText: 'Ingresar código',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
             ),
-          ),*/
-      ],
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              // Aquí puedes implementar la lógica para consultar la base de datos
+              String code = _codeController.text;
+              print('Consultar base de datos con el código: $code');
+            },
+            child: Text('Consultar'),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _isScanning = true;
+              });
+            },
+            child: Text('Escanear código QR'),
+          ),
+          if (_isScanning)
+            Expanded(
+              child: QRView(
+                key: _qrKey,
+                onQRViewCreated: _onQRViewCreated,
+              ),
+            ),
+          /*if (_scannedCode.isNotEmpty) // Mostrar mensaje de escaneo exitoso
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Escaneo exitoso: $_scannedCode',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+            ),*/
+        ],
+      ),
     );
   }
 
