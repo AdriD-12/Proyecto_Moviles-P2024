@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto/src/pages/registro_equipo.dart';
+import 'package:proyecto/src/pages/register_team.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRCaptureComponent extends StatefulWidget {
