@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/src/components/notification_manager.dart';
 
-class SeleccionCanchasPage extends StatelessWidget {
+class CourtsSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,22 +24,22 @@ class SeleccionCanchasPage extends StatelessWidget {
           Positioned(
             top: 220, // Puedes ajustar estas coordenadas según tu preferencia
             left: 230,
-            child: CuadroNumero(1),
+            child: NumberBox(1),
           ),
           Positioned(
             top: 550,
             left: 110,
-            child: CuadroNumero(2),
+            child: NumberBox(2),
           ),
           Positioned(
             top: 550,
             left: 300,
-            child: CuadroNumero(3),
+            child: NumberBox(3),
           ),
           Positioned(
             top: 550,
             left: 200,
-            child: CuadroNumero(4),
+            child: NumberBox(4),
           ),
         ],
       ),
@@ -54,10 +54,10 @@ class SeleccionCanchasPage extends StatelessWidget {
   }
 }
 
-class CuadroNumero extends StatelessWidget {
+class NumberBox extends StatelessWidget {
   final int numero;
 
-  CuadroNumero(this.numero);
+  NumberBox(this.numero);
 
   @override
   Widget build(BuildContext context) {
