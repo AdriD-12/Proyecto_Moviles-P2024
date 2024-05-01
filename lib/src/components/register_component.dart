@@ -58,14 +58,12 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nombreController = TextEditingController();
-  final _apellidoPaternoController = TextEditingController();
-  final _apellidoMaternoController = TextEditingController();
   final _emailController = TextEditingController();
+  final _firstnameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final _fechaNacimientoController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _generoController = TextEditingController();
-  final _fechaNacimientoController = TextEditingController();
 
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? true) {
@@ -92,7 +90,7 @@ class _RegisterFormState extends State<RegisterForm> {
           padding: EdgeInsets.all(16.0),
           children: [
             TextFormField(
-              controller: _nombreController,
+              controller: _firstnameController,
               decoration: InputDecoration(
                 labelText: 'Nombre',
                 border: OutlineInputBorder(
@@ -108,19 +106,9 @@ class _RegisterFormState extends State<RegisterForm> {
             ),
             SizedBox(height: 10),
             TextFormField(
-              controller: _apellidoPaternoController,
+              controller: _lastnameController,
               decoration: InputDecoration(
                 labelText: 'Apellido Paterno',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: _apellidoMaternoController,
-              decoration: InputDecoration(
-                labelText: 'Apellido Materno',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -178,16 +166,6 @@ class _RegisterFormState extends State<RegisterForm> {
                 }
                 return null;
               },
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: _generoController,
-              decoration: InputDecoration(
-                labelText: 'Género',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
             ),
             SizedBox(height: 10),
             TextFormField(
