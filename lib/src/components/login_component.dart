@@ -148,7 +148,7 @@ class LoginComponent extends StatelessWidget {
 
         print('Token: $token');
         // Redirigir a la página Partidos.dart
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => DashboardPage(),

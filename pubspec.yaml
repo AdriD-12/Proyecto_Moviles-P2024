@@ -38,6 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   fl_chart: ^0.67.0
   flutter_dotenv: ^5.1.0
+  lib: ^0.0.3
+  qr_code_scanner: ^1.0.1
+  flutter_native_splash: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +67,7 @@ flutter:
   assets:
     - resources/
     - .env
+    - assets/logo/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
