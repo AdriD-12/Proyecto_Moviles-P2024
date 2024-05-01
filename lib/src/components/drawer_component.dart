@@ -11,6 +11,8 @@ import 'package:proyecto/src/pages/match_spectator.dart';
 class DrawerComponent extends StatelessWidget {
   const DrawerComponent({Key? key});
 
+  get scannedCode => '';
+
   Future<void> _logout(BuildContext context) async {
     // Elimina el token almacenado en las preferencias compartidas
     final prefs = await SharedPreferences.getInstance();
@@ -92,7 +94,8 @@ class DrawerComponent extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RegisterTeam(),
+                        builder: (context) =>
+                            RegisterTeam(scannedCode: scannedCode),
                       ),
                     );
                   },
