@@ -39,6 +39,95 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
         SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
+            String code = _codeController.text;
+            if (code == "RAS134SAS") {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Registro exitoso'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Registro no realizado o código erróneo'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+          child: Text('Consultar'),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            setState(() {
+              _isScanning = true;
+            });
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QRCapture(),
+              ),
+            );
+          },
+          child: Text('Escanear código QR'),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _codeController.dispose();
+    super.dispose();
+  }
+}
+
+
+/*
+
+import 'package:flutter/material.dart';
+import 'package:proyecto/src/pages/qr_capture.dart';
+
+class RegisterTeamComponent extends StatefulWidget {
+  final String scannedCode;
+
+  RegisterTeamComponent({required this.scannedCode});
+
+  @override
+  _RegisterTeamComponentState createState() => _RegisterTeamComponentState();
+}
+
+class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
+  TextEditingController _codeController = TextEditingController();
+  // ignore: unused_field
+  bool _isScanning = false;
+  @override
+  void initState() {
+    super.initState();
+    // Aquí puedes usar widget.scannedCode para acceder al valor del código escaneado
+    _codeController.text = widget.scannedCode;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: 20),
+        TextFormField(
+          controller: _codeController,
+          decoration: InputDecoration(
+            labelText: 'Ingresar código',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
             // Aquí puedes implementar la lógica para consultar la base de datos
             String code = _codeController.text;
             print('Consultar base de datos con el código: $code');
@@ -72,6 +161,8 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
 }
 
 
+
+*/ 
 /*import 'package:flutter/material.dart';
 import 'package:proyecto/src/pages/qr_capture.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
