@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto/src/pages/login.dart';
 import 'package:proyecto/src/pages/register.dart';
 
 class DeclarationComponent extends StatelessWidget {
@@ -45,6 +46,20 @@ class DeclarationComponent extends StatelessWidget {
                   );
                 },
                 child: Text('Aceptar'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+              ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {
+                  // Navegar a la p�gina de registro
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
+                child: Text('Cancelar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                 ),

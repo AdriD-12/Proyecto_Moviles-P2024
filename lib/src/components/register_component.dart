@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/declaration.dart';
 import 'package:proyecto/src/pages/login.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyecto/src/pages/privacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterComponent extends StatelessWidget {
@@ -127,7 +127,7 @@ class _RegisterFormState extends State<RegisterForm> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PrivacyPage(),
+            builder: (context) => DashboardPage(),
           ),
         );
       } else if (response.statusCode == 400) {
