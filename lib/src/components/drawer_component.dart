@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/src/components/drawer_row.dart';
+import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/login.dart';
 import 'package:proyecto/src/pages/match_player.dart';
+import 'package:proyecto/src/pages/match_spectator.dart';
 
 class DrawerComponent extends StatelessWidget {
   const DrawerComponent({super.key});
@@ -26,7 +28,29 @@ class DrawerComponent extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 DrawerRow(
-                  placeholder: "Partidos",
+                  placeholder: "Home",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DashboardPage()), // Redirige a la página Partidos.dart
+                    );
+                  },
+                ),
+                DrawerRow(
+                  placeholder: "Ver Torneo",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MatchSpectatorPage()), // Redirige a la página Partidos.dart
+                    );
+                  },
+                ),
+                DrawerRow(
+                  placeholder: "Mis Partidos",
                   onTap: () {
                     Navigator.push(
                       context,
