@@ -73,7 +73,7 @@ class _MatchListComponentState extends State<MatchListComponent> {
           title: Text(
               'ID: ${Partido.id}, Nombre: ${Partido.nombre}, Fecha: ${Partido.fecha}'),
           onTap: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => MatchDetail(partido: Partido),

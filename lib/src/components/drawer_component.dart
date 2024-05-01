@@ -2,12 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/match_player.dart';
+import 'package:proyecto/src/pages/registro_equipo.dart';
 import 'package:proyecto/src/pages/match_spectator.dart';
 
 class DrawerComponent extends StatelessWidget {
-  const DrawerComponent({super.key});
-  // This widget is the root of your application.
+  const DrawerComponent({Key? key});
+
+  Future<void> _logout(BuildContext context) async {
+    // Elimina el token almacenado en las preferencias compartidas
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+
+    // Navega a la pantalla de inicio de sesión (login)
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -55,21 +70,27 @@ class DrawerComponent extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              MatchPlayerPage()), // Redirige a la página Partidos.dart
+                        builder: (context) => MatchPlayerPage(),
+                      ),
                     );
                   },
                 ),
                 DrawerRow(
-                  placeholder: "LogOut",
+                  placeholder: "Registro de equipo",
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              LoginPage()), // Redirige a la página Login.dart
+                        builder: (context) => RegisterTeam(),
+                      ),
                     );
                   },
+                ),
+                DrawerRow(
+                  placeholder:
+                      "Cerrar Sesión", // Texto para el botón de cierre de sesión
+                  onTap: () =>
+                      _logout(context), // Llama al método de cierre de sesión
                 ),
               ],
             ),

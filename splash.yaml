@@ -1,0 +1,13 @@
+flutter_native_splash:
+ color: "#13151E"
+ color_dark: "#13151E"
+ image: assets/logo/balon.png
+ image_dark: assets/logo/balon.png
+
+ android_12:
+   color: "#13151E"
+   color_dark: "#13151E"
+   image: assets/logo/balon.png
+   image_dark: assets/logo/balon.png
+ 
+ web: false
