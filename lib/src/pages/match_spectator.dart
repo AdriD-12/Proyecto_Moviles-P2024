@@ -13,13 +13,13 @@ class MatchSpectatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lista de Partidos',
+      title: 'Events',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Lista de Partidos'),
+          title: Text('Events'),
         ),
         body: MatchListComponent(),
         drawer: DrawerComponent(),
