@@ -3,13 +3,14 @@ import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/match_player.dart';
 import 'package:proyecto/src/pages/registro_equipo.dart';
 import 'package:proyecto/src/pages/match_spectator.dart';
 
 class DrawerComponent extends StatelessWidget {
   const DrawerComponent({Key? key});
+
+  get scannedCode => '';
 
   Future<void> _logout(BuildContext context) async {
     // Elimina el token almacenado en las preferencias compartidas
@@ -81,7 +82,8 @@ class DrawerComponent extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RegisterTeam(),
+                        builder: (context) =>
+                            RegisterTeam(scannedCode: scannedCode),
                       ),
                     );
                   },
