@@ -13,13 +13,13 @@ class MatchPlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Mis Partidos',
+        title: 'My Matches',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
           appBar: AppBar(
-            title: Text('Mis Partidos'),
+            title: Text('My Matches'),
           ),
           body: MatchListComponent(),
           drawer: DrawerComponent(),

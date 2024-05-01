@@ -25,7 +25,7 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
           TextFormField(
             controller: _codeController,
             decoration: InputDecoration(
-              labelText: 'Ingresar código',
+              labelText: 'Enter code',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
@@ -36,9 +36,9 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
             onPressed: () {
               // Aquí puedes implementar la lógica para consultar la base de datos
               String code = _codeController.text;
-              print('Consultar base de datos con el código: $code');
+              print('Query database with the code: $code');
             },
-            child: Text('Consultar'),
+            child: Text('Search'),
           ),
           SizedBox(height: 20),
           ElevatedButton(
@@ -47,7 +47,7 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
                 _isScanning = true;
               });
             },
-            child: Text('Escanear código QR'),
+            child: Text('Scan a QR code'),
           ),
           if (_isScanning)
             Expanded(
@@ -76,7 +76,7 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
     this._qrController = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        _scannedCode = scanData.code ?? 'Código no disponible';
+        _scannedCode = scanData.code ?? 'Code not available';
       });
       // Detener la visualización de la cámara después de escanear un código
       controller.pauseCamera();
@@ -84,7 +84,7 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
       // Mostrar SnackBar de escaneo exitoso
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Escaneo exitoso: $_scannedCode'),
+          content: Text('Successful scan: $_scannedCode'),
           backgroundColor: Colors.green,
         ),
       );

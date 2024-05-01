@@ -1,3 +1,4 @@
+// se tiene que matar
 import 'package:flutter/material.dart';
 import 'package:proyecto/src/pages/match_spectator.dart';
 
@@ -35,7 +36,7 @@ class PrivacyComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Aviso de Privacidad',
+            'Privacy Policy',
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ class PrivacyComponent extends StatelessWidget {
           ),
           SizedBox(height: 20.0),
           Text(
-            'Gracias por registrarte! El partido tal tal ',
+            'Thanks to register!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 18.0),
           ),
@@ -56,7 +57,7 @@ class PrivacyComponent extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => MatchSpectatorPage()),
               );
             },
-            child: Text('Aceptar'),
+            child: Text('Close'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
             ),

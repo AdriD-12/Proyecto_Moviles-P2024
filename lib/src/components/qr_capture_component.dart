@@ -31,8 +31,8 @@ class _QRCaptureComponentState extends State<QRCaptureComponent> {
           SizedBox(height: 20),
           Center(
             child: _scannedCode != null
-                ? Text('Código escaneado: $_scannedCode')
-                : Text('Escanea un código QR'),
+                ? Text('Scanned Code: $_scannedCode')
+                : Text('Scan a QR code'),
           ),
         ],
       ),
