@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto/src/pages/qr_capture.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class RegisterTeamComponent extends StatefulWidget {
@@ -44,16 +45,16 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
             setState(() {
               _isScanning = true;
             });
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QRCapture(),
+              ),
+            );
           },
           child: Text('Escanear código QR'),
         ),
-        if (_isScanning)
-          Expanded(
-            child: QRView(
-              key: _qrKey,
-              onQRViewCreated: _onQRViewCreated,
-            ),
-          ),
+
         /*if (_scannedCode.isNotEmpty) // Mostrar mensaje de escaneo exitoso
           Padding(
             padding: const EdgeInsets.all(8.0),

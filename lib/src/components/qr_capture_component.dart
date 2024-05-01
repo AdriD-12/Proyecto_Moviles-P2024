@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:proyecto/src/pages/registro_equipo.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import 'package:proyecto/src/components/registro_equipo_component.dart'; // Importa registro_equipo_component.dart
@@ -50,7 +51,7 @@ class _QRCaptureComponentState extends State<QRCaptureComponent> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => RegisterTeamComponent(),
+          builder: (context) => RegisterTeam(),
         ),
       );
     });
