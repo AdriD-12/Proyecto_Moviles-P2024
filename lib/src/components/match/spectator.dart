@@ -27,7 +27,7 @@ class MatchListComponent extends StatelessWidget {
         return ListTile(
           title: Text('ID: ${partido.id}, Hora: ${partido.time}'),
           onTap: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => MatchDetail(partido: partido),
@@ -63,7 +63,7 @@ class MatchDetail extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               // L�gica para participar en el partido
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => PrivacyPage()),
               );

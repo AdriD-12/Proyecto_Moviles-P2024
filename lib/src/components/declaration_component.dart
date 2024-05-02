@@ -40,7 +40,7 @@ class DeclarationComponent extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // Navegar a la p�gina de registro
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => RegisterPage()),
                   );

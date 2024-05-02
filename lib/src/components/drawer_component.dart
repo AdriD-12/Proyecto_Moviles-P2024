@@ -5,7 +5,7 @@ import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:proyecto/src/pages/match_player.dart';
-import 'package:proyecto/src/pages/registro_equipo.dart';
+import 'package:proyecto/src/pages/register_team.dart';
 import 'package:proyecto/src/pages/match_spectator.dart';
 
 class DrawerComponent extends StatelessWidget {
