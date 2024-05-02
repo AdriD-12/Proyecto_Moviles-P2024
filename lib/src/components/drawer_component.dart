@@ -3,6 +3,7 @@ import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/courts_selection.dart';
 import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/login.dart';
+import 'package:proyecto/src/pages/referee_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/match_player.dart';
@@ -66,7 +67,7 @@ class DrawerComponent extends StatelessWidget {
                   },
                 ),
                 DrawerRow(
-                  placeholder: "TORNEOS",
+                  placeholder: "Tournaments",
                   onTap: () {
                     Navigator.push(
                       context,
@@ -94,6 +95,17 @@ class DrawerComponent extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => RegisterTeam(),
+                      ),
+                    );
+                  },
+                ),
+                DrawerRow(
+                  placeholder: "Tournaments Managment",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RefereePage(),
                       ),
                     );
                   },
