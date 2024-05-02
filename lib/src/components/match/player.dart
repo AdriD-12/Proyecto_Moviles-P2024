@@ -5,7 +5,6 @@ import 'package:proyecto/src/abstract/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
 import 'package:proyecto/src/pages/match_player.dart';
-import 'package:proyecto/src/pages/privacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MatchListComponent extends StatefulWidget {
@@ -151,17 +150,10 @@ class MatchDetail extends StatelessWidget {
               // L�gica para participar en el partido
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => PrivacyPage()),
+                MaterialPageRoute(builder: (context) => MatchPlayerPage()),
               );
             },
-            child: Text('Participar'),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // Lógica para participar en el Partido
-            },
-            child: Text('Participar'),
+            child: Text('Close'),
           ),
         ],
       ),
