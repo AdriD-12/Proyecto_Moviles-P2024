@@ -5,4 +5,20 @@ class AuthService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
+
+  /*static Future<void> saveCredentials(String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+    await prefs.setString('password', password);
+  }*/
+
+  static Future<String?> getEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('email');
+  }
+
+  static Future<String?> getPassword() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('password');
+  }
 }

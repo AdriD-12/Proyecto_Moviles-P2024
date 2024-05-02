@@ -79,7 +79,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (!(_formKey.currentState?.validate() ?? false)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Datos ingresados no válidos'),
+          content: Text('Datos ingresados no vï¿½lidos'),
           backgroundColor: Colors.red,
         ),
       );
@@ -89,7 +89,7 @@ class _RegisterFormState extends State<RegisterForm> {
     if (!_declarationCheck) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Favor de aceptar términos y condiciones'),
+          content: Text('Favor de aceptar tï¿½rminos y condiciones'),
           backgroundColor: Colors.red,
         ),
       );
@@ -125,7 +125,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
         );
         // Redirigir a la pÃ¡gina Partidos.dart
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => DashboardPage(),
@@ -135,7 +135,7 @@ class _RegisterFormState extends State<RegisterForm> {
         // Mostrar un mensaje de error
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Datos ingresados no válidos'),
+            content: Text('Datos ingresados no vï¿½lidos'),
             backgroundColor: Colors.red,
           ),
         );
@@ -249,7 +249,7 @@ class _RegisterFormState extends State<RegisterForm> {
             InkWell(
               onTap: () {
                 // Navegar a la pantalla de aviso de privacidad
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => DeclarationPage()),
                 );
@@ -276,7 +276,7 @@ class _RegisterFormState extends State<RegisterForm> {
             ElevatedButton(
               onPressed: () {
                 // Navegar a la pantalla de inicio de sesiÃ³n
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );

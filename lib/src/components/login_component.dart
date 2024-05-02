@@ -100,7 +100,7 @@ class LoginComponent extends StatelessWidget {
               SizedBox(height: 20.0),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => RegisterPage()),
                   );
@@ -142,6 +142,11 @@ class LoginComponent extends StatelessWidget {
         // Guardar el token en SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', token);
+
+        // Guardar email y password
+        SharedPreferences prefsEandP = await SharedPreferences.getInstance();
+        prefsEandP.setString('email', emailController.text);
+        prefsEandP.setString('password', passwordController.text);
 
         print('Token: $token');
         // Redirigir a la página Partidos.dart

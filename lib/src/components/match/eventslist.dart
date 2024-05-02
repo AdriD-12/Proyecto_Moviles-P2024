@@ -5,6 +5,7 @@ import 'package:proyecto/src/abstract/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
 import 'package:proyecto/src/pages/match_spectator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EventsListComponent extends StatefulWidget {
   @override
@@ -38,6 +39,7 @@ class _EventsListComponentState extends State<EventsListComponent> {
 
     if (response.statusCode == 200) {
       final dynamic jsonData = jsonDecode(response.body);
+      print('si esta habil el token');
       if (jsonData.containsKey('events') && jsonData['events'] is List) {
         setState(() {
           Partidos = (jsonData['events'] as List)
@@ -51,6 +53,44 @@ class _EventsListComponentState extends State<EventsListComponent> {
       } else {
         // Manejar el caso donde 'events' no está presente o no es una lista
         print('La respuesta no contiene una lista de Partidos válida.');
+      }
+    } else if (response.statusCode == 401) {
+      print('volver a iniciar sesion automaticamente');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
+      String? email = await AuthService.getEmail();
+      String? password = await AuthService.getPassword();
+      final String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+      final url = Uri.parse('$apiUrl/auth');
+
+      try {
+        final response = await http.post(
+          url,
+          body: json.encode({
+            'email': email,
+            'password': password,
+          }),
+          headers: {'Content-Type': 'application/json'},
+        );
+
+        if (response.statusCode == 200) {
+          final responseData = json.decode(response.body);
+          String token = responseData['token'];
+
+          // Guardar el token en SharedPreferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', token);
+          print('Token: $token');
+          // Redirigir a la página Partidos.dart
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MatchSpectatorPage(),
+            ),
+          );
+        }
+      } catch (e) {
+        print('Error: $e');
       }
     } else {
       // Mostrar un mensaje de error si la solicitud falla
