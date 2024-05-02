@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:proyecto/src/abstract/constants.dart';
 import 'package:proyecto/src/abstract/match_info.dart';
-import 'package:proyecto/src/pages/privacy.dart';
+import 'package:proyecto/src/pages/match_player.dart';
 
 class MatchListComponent extends StatelessWidget {
   final List<MatchInfo> partidos = _parseMatch();
@@ -65,17 +65,10 @@ class MatchDetail extends StatelessWidget {
               // L�gica para participar en el partido
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PrivacyPage()),
+                MaterialPageRoute(builder: (context) => MatchPlayerPage()),
               );
             },
-            child: Text('Participar'),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // L�gica para ver el partido
-            },
-            child: Text('Ver'),
+            child: Text('Close'),
           ),
         ],
       ),

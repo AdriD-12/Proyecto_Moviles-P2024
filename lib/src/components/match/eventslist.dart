@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:proyecto/src/abstract/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
-import 'package:proyecto/src/pages/privacy.dart';
+import 'package:proyecto/src/pages/match_spectator.dart';
 
 class EventsListComponent extends StatefulWidget {
   @override
@@ -153,7 +153,7 @@ class MatchDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalle del Partido'),
+        title: Text('Match Details'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,17 +169,10 @@ class MatchDetail extends StatelessWidget {
               // L�gica para participar en el partido
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PrivacyPage()),
+                MaterialPageRoute(builder: (context) => MatchSpectatorPage()),
               );
             },
-            child: Text('Participar'),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // Lógica para participar en el Partido
-            },
-            child: Text('Participar'),
+            child: Text('Close'),
           ),
         ],
       ),
