@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:proyecto/src/components/date_picker.dart';
 import 'package:proyecto/src/pages/dashboard.dart';
 import 'package:proyecto/src/pages/declaration.dart';
 import 'package:proyecto/src/pages/login.dart';
@@ -233,15 +234,7 @@ class _RegisterFormState extends State<RegisterForm> {
               },
             ),
             SizedBox(height: 10),
-            TextFormField(
-              controller: _birthdayController,
-              decoration: InputDecoration(
-                labelText: 'Fecha de Nacimiento',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
+            DatePickerField(controller: _birthdayController),
             SizedBox(height: 20),
             Checkbox(
               checkColor: Colors.white,
@@ -262,7 +255,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 );
               },
               child: Text(
-                'Aviso de Privacidad',
+                'Privacy Policy',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.blue),
               ),
@@ -270,7 +263,7 @@ class _RegisterFormState extends State<RegisterForm> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => _register(context),
-              child: Text('Aceptar'),
+              child: Text('Accept'),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: Colors.green,
@@ -288,7 +281,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
-              child: Text('Volver a Iniciar Sesión'),
+              child: Text('Return to Login Page'),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: Colors.grey[600],

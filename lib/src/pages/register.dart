@@ -14,7 +14,7 @@ class RegisterPage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Registro'),
+          title: Text('Register'),
         ),
         body: RegisterComponent(),
       ),

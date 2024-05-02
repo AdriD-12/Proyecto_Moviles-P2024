@@ -6,7 +6,7 @@ class CourtsSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Seleccionar Canchas'),
+        title: Text('Select Fields'),
       ),
       body: Stack(
         children: [
@@ -68,22 +68,22 @@ class NumberBox extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Confirmación'),
-              content: Text('¿Estás seguro de seleccionar el cuadro $numero?'),
+              title: Text('Confirm'),
+              content: Text('Are you sure you want to select the box $numero?'),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Cancelar'),
+                  child: Text('Cancel'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text('Confirmar'),
+                  child: Text('Confirm'),
                   onPressed: () {
-                    print("Notificarion");
+                    print("Notification");
                     NotificationManager.showNotification(
-                      title: '¡Hola!',
-                      body: 'Esta es una notificación de prueba.',
+                      title: 'HI!',
+                      body: 'This is a test notification.',
                     );
                     Navigator.of(context).pop();
                   },

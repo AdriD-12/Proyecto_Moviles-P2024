@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/components/drawer_component.dart';
-import 'package:proyecto/src/components/match/eventsList.dart';
+import 'package:proyecto/src/components/match/eventslist.dart';
 
 void main() async {
   print("Open Match to Attend");

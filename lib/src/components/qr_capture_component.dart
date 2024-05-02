@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:proyecto/src/pages/register_team.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import 'package:proyecto/src/components/registro_equipo_component.dart'; // Importa registro_equipo_component.dart
-
 class QRCaptureComponent extends StatefulWidget {
+  final void Function(String) onCodeScanned;
+
+  const QRCaptureComponent({Key? key, required this.onCodeScanned})
+      : super(key: key);
+
   @override
   _QRCaptureComponentState createState() => _QRCaptureComponentState();
 }
@@ -17,12 +20,10 @@ class _QRCaptureComponentState extends State<QRCaptureComponent> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      // Agrega SingleChildScrollView aquí
       child: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height *
-                0.8, // Ajusta la altura de la cámara según tus necesidades
+            height: MediaQuery.of(context).size.height * 0.8,
             child: QRView(
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
@@ -31,8 +32,8 @@ class _QRCaptureComponentState extends State<QRCaptureComponent> {
           SizedBox(height: 20),
           Center(
             child: _scannedCode != null
-                ? Text('Código escaneado: $_scannedCode')
-                : Text('Escanea un código QR'),
+                ? Text('Scanned Code: $_scannedCode')
+                : Text('Scan a QR code'),
           ),
         ],
       ),
@@ -45,12 +46,16 @@ class _QRCaptureComponentState extends State<QRCaptureComponent> {
       setState(() {
         _scannedCode = scanData.code;
       });
-      // Detener la visualización de la cámara después de escanear un código
-      await controller.pauseCamera();
-      Navigator.push(
+      controller.stopCamera();
+      widget.onCodeScanned(_scannedCode!);
+
+      //Navigator.pop(context);
+      print(widget.onCodeScanned);
+
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => RegisterTeamComponent(),
+          builder: (context) => RegisterTeam(scannedCode: _scannedCode!),
         ),
       );
     });
