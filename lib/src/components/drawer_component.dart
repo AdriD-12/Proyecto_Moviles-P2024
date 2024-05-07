@@ -139,7 +139,7 @@ class _DrawerComponentState extends State<DrawerComponent> {
                   },
                 ),
                 if (type_User ==
-                    'referee') // Mostrar solo si el usuario es "referee"
+                    'organizer') // Mostrar solo si el usuario es "referee"
                   DrawerRow(
                     placeholder: "Tournaments Management",
                     onTap: () {
