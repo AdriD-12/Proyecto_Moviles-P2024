@@ -47,6 +47,7 @@ class _EventsListRefereeComponentState
                     id: x['id'].toString(),
                     nombre: x['name'],
                     fecha: x['start_date'],
+                    idTable: "",
                   ))
               .toList();
         });

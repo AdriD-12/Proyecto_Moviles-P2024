@@ -13,15 +13,15 @@ class EventsListComponent extends StatefulWidget {
 }
 
 class _EventsListComponentState extends State<EventsListComponent> {
-  List<MatchRow> Partidos = [];
+  List<MatchRow> Torneos = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchMatches();
+    _fetchEvents();
   }
 
-  Future<void> _fetchMatches() async {
+  Future<void> _fetchEvents() async {
     String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
     String? token = await AuthService.getToken();
     if (token == null) {
@@ -42,17 +42,18 @@ class _EventsListComponentState extends State<EventsListComponent> {
       print('si esta habil el token');
       if (jsonData.containsKey('events') && jsonData['events'] is List) {
         setState(() {
-          Partidos = (jsonData['events'] as List)
+          Torneos = (jsonData['events'] as List)
               .map((x) => MatchRow(
                     id: x['id'].toString(),
                     nombre: x['name'],
                     fecha: x['start_date'],
+                    idTable: "",
                   ))
               .toList();
         });
       } else {
         // Manejar el caso donde 'events' no está presente o no es una lista
-        print('La respuesta no contiene una lista de Partidos válida.');
+        print('La respuesta no contiene una lista de Torneos válida.');
       }
     } else if (response.statusCode == 401) {
       print('volver a iniciar sesion automaticamente');
@@ -81,7 +82,7 @@ class _EventsListComponentState extends State<EventsListComponent> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('token', token);
           print('Token: $token');
-          // Redirigir a la página Partidos.dart
+          // Redirigir a la página Torneos.dart
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -96,7 +97,7 @@ class _EventsListComponentState extends State<EventsListComponent> {
       // Mostrar un mensaje de error si la solicitud falla
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to load Partidos'),
+          content: Text('Failed to load Torneos'),
           backgroundColor: Colors.red,
         ),
       );
@@ -106,9 +107,9 @@ class _EventsListComponentState extends State<EventsListComponent> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: Partidos.length,
+      itemCount: Torneos.length,
       itemBuilder: (context, index) {
-        final Partido = Partidos[index];
+        final Partido = Torneos[index];
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -145,41 +146,104 @@ class _EventsListComponentState extends State<EventsListComponent> {
   }
 }
 
-class ExpandedList extends StatelessWidget {
+class ExpandedList extends StatefulWidget {
   final MatchRow partido;
 
   ExpandedList({required this.partido});
 
   @override
+  _ExpandedListState createState() => _ExpandedListState();
+}
+
+class _ExpandedListState extends State<ExpandedList> {
+  List<MatchRow> partidos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMatches();
+  }
+
+  Future<void> _fetchMatches() async {
+    String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    String? token = await AuthService.getToken();
+    if (token == null) {
+      print('No se encontró ningún token guardado.');
+      return;
+    }
+
+    final response = await http.get(
+      Uri.parse('$apiUrl/match/:id'),
+      headers: {
+        'Accept': '*/*',
+        'authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final dynamic jsonData = jsonDecode(response.body);
+      print('si esta habil el token');
+      if (jsonData.containsKey('match') && jsonData['match'] is List) {
+        setState(() {
+          partidos = (jsonData['match'] as List)
+              .map((x) => MatchRow(
+                    id: x['id'].toString(),
+                    nombre: "",
+                    fecha: x['start_date'],
+                    idTable: x['fk_event'].toString(),
+                  ))
+              .toList();
+        });
+        print(partidos[0].fecha);
+      } else {
+        // Manejar el caso donde 'match' no está presente o no es una lista
+        print('La respuesta no contiene una lista de partidos válida.');
+      }
+    } else if (response.statusCode == 401) {
+      // Lógica para manejar error de autenticación
+    } else {
+      // Mostrar un mensaje de error si la solicitud falla
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to load Partidos'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TORNEO ${partido.id}'),
+        title: Text('TORNEO ${widget.partido.id}'),
       ),
       body: ListView.builder(
-        itemCount: 3, // Número de componentes más pequeños que deseas mostrar
-        itemBuilder: (context, index) {
-          // Aquí construyes tus componentes más pequeños
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 2,
-              child: ListTile(
-                title: Text(
-                    'Partido $index'), // Texto de ejemplo, puedes personalizarlo
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MatchDetail(partido: partido),
+          itemCount: partidos.length,
+          itemBuilder: (context, index) {
+            final partido = partidos[index];
+            if (widget.partido.id == partido.idTable) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 2,
+                  child: ListTile(
+                    title: Text(
+                      'Partido ${partido.id}',
                     ),
-                  );
-                },
-              ),
-            ),
-          );
-        },
-      ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MatchDetail(partido: partido),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+          }),
     );
   }
 }
@@ -193,28 +257,50 @@ class MatchDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Match Details'),
+        title: Text('Detalles del Partido'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          Text(
-            'ID del Partido: ${partido.id}',
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // L�gica para participar en el partido
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MatchSpectatorPage()),
-              );
-            },
-            child: Text('Close'),
-          ),
-        ],
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: 20),
+            Text(
+              'Nombre del Partido: ${partido.id}',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Fecha: ${(partido.fecha).toString().substring(0, 10)}',
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Hora: ${(partido.fecha).toString().substring(11, 16)}',
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Lógica para participar en el partido
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MatchSpectatorPage()),
+                );
+              },
+              child: Text(
+                'Cerrar',
+                style: TextStyle(fontSize: 18),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 15),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
