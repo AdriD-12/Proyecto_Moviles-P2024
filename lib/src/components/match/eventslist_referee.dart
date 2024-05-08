@@ -5,7 +5,6 @@ import 'package:proyecto/src/abstract/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
 import 'package:proyecto/src/components/match/match_referee.dart';
-import 'package:proyecto/src/pages/privacy.dart';
 
 class EventsListRefereeComponent extends StatefulWidget {
   @override

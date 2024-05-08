@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:proyecto/src/components/drawer_row.dart';
 import 'package:proyecto/src/pages/courts_selection.dart';
@@ -9,8 +10,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:proyecto/src/pages/match_player.dart';
 import 'package:proyecto/src/pages/match_spectator.dart';
 
-class DrawerComponent extends StatelessWidget {
+class DrawerComponent extends StatefulWidget {
   const DrawerComponent({Key? key});
+
+  @override
+  _DrawerComponentState createState() => _DrawerComponentState();
+}
+
+class _DrawerComponentState extends State<DrawerComponent> {
+  String type_User = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserType().then((value) {
+      setState(() {
+        type_User = value ?? '';
+      });
+    });
+  }
 
   get scannedCode => '';
 
@@ -24,6 +42,25 @@ class DrawerComponent extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => LoginPage()),
     );
+  }
+
+  Future<String?> _getUserType() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    if (token != null) {
+      final parts = token.split('.');
+      if (parts.length != 3) {
+        throw FormatException('Invalid token');
+      }
+
+      final payload = json
+          .decode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+
+      return payload['user_type'].toString(); // Convertir el id a String
+    }
+
+    return null;
   }
 
   @override
@@ -101,17 +138,19 @@ class DrawerComponent extends StatelessWidget {
                     );
                   },
                 ),
-                DrawerRow(
-                  placeholder: "Tournaments Managment",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RefereePage(),
-                      ),
-                    );
-                  },
-                ),
+                if (type_User ==
+                    'staff') // Mostrar solo si el usuario es "referee"
+                  DrawerRow(
+                    placeholder: "Tournaments Management",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RefereePage(),
+                        ),
+                      );
+                    },
+                  ),
                 DrawerRow(
                   placeholder:
                       "Logout", // Texto para el botón de cierre de sesión
