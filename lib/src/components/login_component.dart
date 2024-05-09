@@ -139,6 +139,8 @@ class LoginComponent extends StatelessWidget {
         final responseData = json.decode(response.body);
         String token = responseData['token'];
 
+        int userId = responseData['user']['id'];
+
         // Guardar el token en SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', token);
@@ -147,7 +149,7 @@ class LoginComponent extends StatelessWidget {
         SharedPreferences prefsEandP = await SharedPreferences.getInstance();
         prefsEandP.setString('email', emailController.text);
         prefsEandP.setString('password', passwordController.text);
-
+        prefsEandP.setInt('id', userId);
         print('Token: $token');
         // Redirigir a la página Partidos.dart
         Navigator.pushReplacement(

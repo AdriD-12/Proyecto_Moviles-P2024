@@ -28,9 +28,11 @@ class _MatchListComponentState extends State<MatchListComponent> {
       print('No se encontró ningún token guardado.');
       return;
     }
+    int? iduser = await AuthService.getIdUser();
 
+    print('$apiUrl/user/${iduser}/event');
     final response = await http.get(
-      Uri.parse('$apiUrl/event'),
+      Uri.parse('$apiUrl/user/${iduser}/event'),
       headers: {
         'Accept': '*/*',
         'authorization': 'Bearer $token',
@@ -46,7 +48,7 @@ class _MatchListComponentState extends State<MatchListComponent> {
               .map((x) => MatchRow(
                     id: x['id'].toString(),
                     nombre: x['name'],
-                    fecha: x['start_date'],
+                    fecha: x['createdAt'],
                     idTable: "",
                   ))
               .toList();
@@ -97,7 +99,7 @@ class _MatchListComponentState extends State<MatchListComponent> {
       // Mostrar un mensaje de error si la solicitud falla
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to load Torneos'),
+          content: Text('Theres no  Torneos'),
           backgroundColor: Colors.red,
         ),
       );
@@ -173,7 +175,7 @@ class _ExpandedListState extends State<ExpandedList> {
     }
 
     final response = await http.get(
-      Uri.parse('$apiUrl/match/:id'),
+      Uri.parse('$apiUrl/match/'),
       headers: {
         'Accept': '*/*',
         'authorization': 'Bearer $token',

@@ -17,7 +17,7 @@ class _MatchRefereeState extends State<MatchReferee> {
   int equipo2Counter = 0;
   bool isTimerRunning = false;
   late Timer _timer;
-  int _seconds = 2; // Cambiar a la cantidad de tiempo deseada en segundos
+  int _seconds = 0; // Cambiar a la cantidad de tiempo deseada en segundos
   int _minutes = 60;
 
   @override
@@ -82,7 +82,7 @@ class _MatchRefereeState extends State<MatchReferee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalle del Partido'),
+        title: Text('Detalle del Partido ${widget.partido.id}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

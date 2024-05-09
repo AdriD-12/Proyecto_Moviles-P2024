@@ -5,6 +5,8 @@ import 'package:proyecto/src/abstract/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
 import 'package:proyecto/src/components/match/match_referee.dart';
+import 'package:proyecto/src/pages/match_spectator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EventsListRefereeComponent extends StatefulWidget {
   @override
@@ -14,15 +16,15 @@ class EventsListRefereeComponent extends StatefulWidget {
 
 class _EventsListRefereeComponentState
     extends State<EventsListRefereeComponent> {
-  List<MatchRow> Partidos = [];
+  List<MatchRow> Torneos = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchMatches();
+    _fetchEvents();
   }
 
-  Future<void> _fetchMatches() async {
+  Future<void> _fetchEvents() async {
     String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
     String? token = await AuthService.getToken();
     if (token == null) {
@@ -40,9 +42,10 @@ class _EventsListRefereeComponentState
 
     if (response.statusCode == 200) {
       final dynamic jsonData = jsonDecode(response.body);
+      print('si esta habil el token');
       if (jsonData.containsKey('events') && jsonData['events'] is List) {
         setState(() {
-          Partidos = (jsonData['events'] as List)
+          Torneos = (jsonData['events'] as List)
               .map((x) => MatchRow(
                     id: x['id'].toString(),
                     nombre: x['name'],
@@ -53,13 +56,51 @@ class _EventsListRefereeComponentState
         });
       } else {
         // Manejar el caso donde 'events' no está presente o no es una lista
-        print('La respuesta no contiene una lista de Partidos válida.');
+        print('La respuesta no contiene una lista de Torneos válida.');
+      }
+    } else if (response.statusCode == 401) {
+      print('volver a iniciar sesion automaticamente');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
+      String? email = await AuthService.getEmail();
+      String? password = await AuthService.getPassword();
+      final String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+      final url = Uri.parse('$apiUrl/auth');
+
+      try {
+        final response = await http.post(
+          url,
+          body: json.encode({
+            'email': email,
+            'password': password,
+          }),
+          headers: {'Content-Type': 'application/json'},
+        );
+
+        if (response.statusCode == 200) {
+          final responseData = json.decode(response.body);
+          String token = responseData['token'];
+
+          // Guardar el token en SharedPreferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', token);
+          print('Token: $token');
+          // Redirigir a la página Torneos.dart
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MatchSpectatorPage(),
+            ),
+          );
+        }
+      } catch (e) {
+        print('Error: $e');
       }
     } else {
       // Mostrar un mensaje de error si la solicitud falla
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to load Partidos'),
+          content: Text('Failed to load Torneos'),
           backgroundColor: Colors.red,
         ),
       );
@@ -69,9 +110,9 @@ class _EventsListRefereeComponentState
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: Partidos.length,
+      itemCount: Torneos.length,
       itemBuilder: (context, index) {
-        final Partido = Partidos[index];
+        final Partido = Torneos[index];
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
@@ -108,41 +149,104 @@ class _EventsListRefereeComponentState
   }
 }
 
-class ExpandedList extends StatelessWidget {
+class ExpandedList extends StatefulWidget {
   final MatchRow partido;
 
   ExpandedList({required this.partido});
 
   @override
+  _ExpandedListState createState() => _ExpandedListState();
+}
+
+class _ExpandedListState extends State<ExpandedList> {
+  List<MatchRow> partidos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMatches();
+  }
+
+  Future<void> _fetchMatches() async {
+    String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    String? token = await AuthService.getToken();
+    if (token == null) {
+      print('No se encontró ningún token guardado.');
+      return;
+    }
+
+    final response = await http.get(
+      Uri.parse('$apiUrl/match/'),
+      headers: {
+        'Accept': '*/*',
+        'authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final dynamic jsonData = jsonDecode(response.body);
+      print('si esta habil el token');
+      if (jsonData.containsKey('match') && jsonData['match'] is List) {
+        setState(() {
+          partidos = (jsonData['match'] as List)
+              .map((x) => MatchRow(
+                    id: x['id'].toString(),
+                    nombre: "",
+                    fecha: x['start_date'],
+                    idTable: x['fk_event'].toString(),
+                  ))
+              .toList();
+        });
+        print(partidos[0].fecha);
+      } else {
+        // Manejar el caso donde 'match' no está presente o no es una lista
+        print('La respuesta no contiene una lista de partidos válida.');
+      }
+    } else if (response.statusCode == 401) {
+      // Lógica para manejar error de autenticación
+    } else {
+      // Mostrar un mensaje de error si la solicitud falla
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to load Partidos'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TORNEO ${partido.id}'),
+        title: Text('TORNEO ${widget.partido.id}'),
       ),
       body: ListView.builder(
-        itemCount: 3, // Número de componentes más pequeños que deseas mostrar
-        itemBuilder: (context, index) {
-          // Aquí construyes tus componentes más pequeños
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 2,
-              child: ListTile(
-                title: Text(
-                    'Partido $index'), // Texto de ejemplo, puedes personalizarlo
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MatchReferee(partido: partido),
+          itemCount: partidos.length,
+          itemBuilder: (context, index) {
+            final partido = partidos[index];
+            if (widget.partido.id == partido.idTable) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 2,
+                  child: ListTile(
+                    title: Text(
+                      'Partido ${partido.id}',
                     ),
-                  );
-                },
-              ),
-            ),
-          );
-        },
-      ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MatchReferee(partido: partido),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+          }),
     );
   }
 }

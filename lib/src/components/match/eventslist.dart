@@ -173,7 +173,7 @@ class _ExpandedListState extends State<ExpandedList> {
     }
 
     final response = await http.get(
-      Uri.parse('$apiUrl/match/:id'),
+      Uri.parse('$apiUrl/match/'),
       headers: {
         'Accept': '*/*',
         'authorization': 'Bearer $token',
