@@ -83,6 +83,28 @@ class _MatchRefereeState extends State<MatchReferee> {
         print("si es igual");
       }*/
     }
+    _FinishedGame();
+  }
+
+  Future<void> _FinishedGame() async {
+    int id = int.parse(widget.partido.id);
+    int index = teams.indexWhere((team) => team.id == id.toString());
+    String tiempo = teams[index].end_date;
+    int golVisitante = int.parse(teams[index].goals_visitor);
+    int golLocal = int.parse(teams[index].goals_local);
+    ;
+    // Obtener la fecha y hora actual
+    DateTime now = DateTime.now();
+
+    // Convertir la fecha del partido a un objeto DateTime
+    DateTime endTime = DateTime.parse(tiempo);
+
+    // Verificar si el partido ya ha finalizado
+    if (endTime.isBefore(now)) {
+      isTimerRunning = true;
+      equipo1Counter = golVisitante;
+      equipo2Counter = golLocal;
+    }
   }
 
   void startTimer() {
