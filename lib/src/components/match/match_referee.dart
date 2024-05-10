@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
 import 'package:proyecto/src/abstract/match_team_info.dart';
 import 'package:proyecto/src/abstract/shared_preferences.dart';
+import 'package:proyecto/src/components/notification_manager.dart';
 
 class MatchReferee extends StatefulWidget {
   final MatchRow partido;
@@ -83,6 +84,29 @@ class _MatchRefereeState extends State<MatchReferee> {
         print("si es igual");
       }*/
     }
+    _FinishedGame();
+  }
+
+  Future<void> _FinishedGame() async {
+    int id = int.parse(widget.partido.id);
+    int index = teams.indexWhere((team) => team.id == id.toString());
+    String tiempo = teams[index].end_date;
+    int golVisitante = int.parse(teams[index].goals_visitor);
+    int golLocal = int.parse(teams[index].goals_local);
+    ;
+    // Obtener la fecha y hora actual
+    DateTime now = DateTime.now();
+
+    // Convertir la fecha del partido a un objeto DateTime
+    DateTime endTime = DateTime.parse(tiempo);
+    startTimer();
+    pauseTimer();
+    // Verificar si el partido ya ha finalizado
+    if (endTime.isBefore(now)) {
+      isTimerRunning = true;
+      equipo1Counter = golVisitante;
+      equipo2Counter = golLocal;
+    }
   }
 
   void startTimer() {
@@ -122,6 +146,9 @@ class _MatchRefereeState extends State<MatchReferee> {
             TextButton(
               onPressed: () {
                 pauseTimer(); // Detener el temporizador
+                NotificationManager.showNotification(
+                    title: '¡Partido finalizado!',
+                    body: 'El partido ha sido finalizado.');
                 setState(() {
                   isTimerRunning = true;
                 });
