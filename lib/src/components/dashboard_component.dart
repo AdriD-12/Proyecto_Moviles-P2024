@@ -16,7 +16,7 @@ class DashboardComponent extends StatefulWidget {
 
 class _DashboardComponentState extends State<DashboardComponent> {
   int wins = 0, loses = 0, goals = 0;
-  String court = '', StartTime = '';
+  String court = '', StartTime = '', next_match = '';
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _DashboardComponentState extends State<DashboardComponent> {
       String? token = await AuthService.getToken();
       String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
       final response = await http.get(
-        Uri.parse('$apiUrl/user/$userID'),
+        Uri.parse('$apiUrl/user/$userID/dashboard'),
         headers: {
           'Accept': '*/*',
           'authorization': 'Bearer $token',
@@ -41,11 +41,12 @@ class _DashboardComponentState extends State<DashboardComponent> {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         setState(() {
-          wins = data['won'];
-          loses = data['lost'];
+          wins = data['wins'];
+          loses = data['loses'];
           court = data['court'];
           goals = data['goals'];
-          String dateTimeString = data['StartTime'];
+          next_match = data['next_match'];
+          String dateTimeString = data['start_time'];
 
           // Parsear la cadena de fecha y hora en un objeto DateTime
           DateTime dateTime = DateTime.parse(dateTimeString);
@@ -104,7 +105,7 @@ class _DashboardComponentState extends State<DashboardComponent> {
                   child: Align(
                     alignment: AlignmentDirectional(0, 0),
                     child: Text(
-                      'Next Match: Quijotes',
+                      'Next Match: $next_match',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'Readex Pro',
@@ -307,7 +308,7 @@ class _DashboardComponentState extends State<DashboardComponent> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.45,
+                      width: MediaQuery.of(context).size.width * 0.95,
                       height: 165,
                       decoration: BoxDecoration(
                         color: Color(0xFFAFE1C7),
@@ -334,42 +335,6 @@ class _DashboardComponentState extends State<DashboardComponent> {
                                 style: const TextStyle(
                                   fontFamily: 'Readex Pro',
                                   fontSize: 60,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.45,
-                      height: 165,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFAFE1C7),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Position',
-                            style: const TextStyle(
-                              fontFamily: 'Readex Pro',
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Align(
-                            alignment: const AlignmentDirectional(0, 0),
-                            child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 10, 0, 0),
-                              child: Text(
-                                '5�',
-                                style: const TextStyle(
-                                  fontFamily: 'Readex Pro',
-                                  fontSize: 58,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
