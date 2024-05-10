@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:proyecto/src/abstract/shared_preferences.dart';
+
 import 'package:proyecto/src/pages/qr_capture.dart';
 
 class RegisterTeamComponent extends StatefulWidget {
@@ -30,7 +36,7 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
         TextFormField(
           controller: _codeController,
           decoration: InputDecoration(
-            labelText: 'Ingresar código',
+            labelText: 'Enter code',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
@@ -38,25 +44,8 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
         ),
         SizedBox(height: 20),
         ElevatedButton(
-          onPressed: () {
-            String code = _codeController.text;
-            if (code == "RAS134SAS") {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Registro exitoso'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Registro no realizado o código erróneo'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          child: Text('Consultar'),
+          onPressed: () => _registerTeamByQrCode(context),
+          child: Text('Consult'),
         ),
         SizedBox(height: 20),
         ElevatedButton(
@@ -71,7 +60,7 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
               ),
             );
           },
-          child: Text('Escanear código QR'),
+          child: Text('Scan the QR code'),
         ),
       ],
     );
@@ -82,8 +71,48 @@ class _RegisterTeamComponentState extends State<RegisterTeamComponent> {
     _codeController.dispose();
     super.dispose();
   }
-}
 
+  _registerTeamByQrCode(BuildContext context) async {
+    String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    String? token = await AuthService.getToken();
+
+    String codes = _codeController.text;
+    int? idUser = await AuthService.getIdUser();
+    print('codigo?: $codes');
+    print('id user?: $idUser');
+
+    final response = await http.post(
+      Uri.parse('$apiUrl/team/$codes/members'),
+      body: json.encode({'members': idUser}),
+      headers: {
+        'authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+    );
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Successful registration'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else if (response.statusCode == 400) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Team not found'),
+          backgroundColor: Color.fromARGB(255, 188, 113, 9),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to register: ${response.statusCode}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+}
 
 /*
 

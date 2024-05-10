@@ -124,7 +124,6 @@ class LoginComponent extends StatelessWidget {
   _login(BuildContext context) async {
     final String apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
     final url = Uri.parse('$apiUrl/auth');
-
     try {
       final response = await http.post(
         url,
@@ -150,6 +149,7 @@ class LoginComponent extends StatelessWidget {
         prefsEandP.setString('email', emailController.text);
         prefsEandP.setString('password', passwordController.text);
         prefsEandP.setInt('id', userId);
+
         print('Token: $token');
         // Redirigir a la página Partidos.dart
         Navigator.pushReplacement(
