@@ -1,7 +1,11 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
+import 'package:proyecto/src/abstract/match_team_info.dart';
+import 'package:proyecto/src/abstract/shared_preferences.dart';
 
 class MatchReferee extends StatefulWidget {
   final MatchRow partido;
@@ -13,17 +17,72 @@ class MatchReferee extends StatefulWidget {
 }
 
 class _MatchRefereeState extends State<MatchReferee> {
+  List<MatchTeamInfo> teams = [];
   int equipo1Counter = 0;
   int equipo2Counter = 0;
   bool isTimerRunning = false;
   late Timer _timer;
-  int _seconds = 2; // Cambiar a la cantidad de tiempo deseada en segundos
+  int _seconds = 0; // Cambiar a la cantidad de tiempo deseada en segundos
   int _minutes = 60;
 
   @override
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _matchReference();
+    _getNameVisitor();
+    _getNameLocal();
+  }
+
+  Future<void> _matchReference() async {
+    String? apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    String? token = await AuthService.getToken();
+    if (token == null) {
+      print('No se encontró ningún token guardado.');
+      return;
+    }
+    int? iduser = await AuthService.getIdUser();
+
+    final response = await http.get(
+      Uri.parse('$apiUrl/event/${widget.partido.idTable}/matches'),
+      headers: {
+        'Accept': '*/*',
+        'authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('si autoriza');
+      final dynamic jsonData = jsonDecode(response.body);
+      if (jsonData.containsKey('matches') && jsonData['matches'] is List) {
+        setState(() {
+          teams = (jsonData['matches'] as List)
+              .map((x) => MatchTeamInfo(
+                    id: x['id'].toString(),
+                    score_local: x['score_local'].toString(),
+                    score_visitor: x['score_visitor'].toString(),
+                    goals_local: x['goals_local'].toString(),
+                    goals_visitor: x['goals_visitor'].toString(),
+                    end_date: x['end_date'].toString(),
+                    fk_local: x['fk_local'].toString(),
+                    fk_visitor: x['fk_visitor'].toString(),
+                  ))
+              .toList();
+        });
+      }
+      /* final responseData = json.decode(response.body);
+
+
+      int idPartie = responseData['matches']['fk_event'];
+      if (idPartie.toString() == test) {
+        print("si es igual");
+      }*/
+    }
   }
 
   void startTimer() {
@@ -78,21 +137,88 @@ class _MatchRefereeState extends State<MatchReferee> {
     );
   }
 
+  Future<String> _getNameVisitor() async {
+    String? apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    String? token = await AuthService.getToken();
+
+    int id = int.parse(widget.partido.id);
+    int index = teams.indexWhere((team) => team.id == id.toString());
+
+    if (index != -1) {
+      print('$apiUrl/team/${teams[index].id}');
+
+      final response = await http.get(
+        Uri.parse('$apiUrl/team/${teams[index].fk_visitor}'),
+        headers: {
+          'Accept': '*/*',
+          'authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        String name = responseData['team']['name'];
+        return name;
+      }
+    }
+    return 'Null';
+  }
+
+  Future<String> _getNameLocal() async {
+    String? apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    String? token = await AuthService.getToken();
+
+    int id = int.parse(widget.partido.id);
+    int index = teams.indexWhere((team) => team.id == id.toString());
+
+    if (index != -1) {
+      print('$apiUrl/team/${teams[index].id}');
+
+      final response = await http.get(
+        Uri.parse('$apiUrl/team/${teams[index].fk_local}'),
+        headers: {
+          'Accept': '*/*',
+          'authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        String name = responseData['team']['name'];
+        return name;
+      }
+    }
+    return 'Null';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalle del Partido'),
+        title: Text('Detalle del Partido ${widget.partido.id}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Equipo 1',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              textAlign: TextAlign.center,
+            FutureBuilder<String>(
+              future: _getNameLocal(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Puedes mostrar un indicador de carga mientras se obtiene el nombre
+                } else if (snapshot.hasError) {
+                  return Text(
+                      'Error al obtener el nombre del visitante'); // Maneja el error si ocurre
+                } else {
+                  return Text(
+                    snapshot.data ??
+                        'Nombre no encontrado', // Muestra el nombre o un mensaje predeterminado si no se encuentra
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  );
+                }
+              },
             ),
             SizedBox(height: 8),
             Row(
@@ -131,10 +257,23 @@ class _MatchRefereeState extends State<MatchReferee> {
               ],
             ),
             SizedBox(height: 24),
-            Text(
-              'Equipo 2',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              textAlign: TextAlign.center,
+            FutureBuilder<String>(
+              future: _getNameVisitor(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(); // Puedes mostrar un indicador de carga mientras se obtiene el nombre
+                } else if (snapshot.hasError) {
+                  return Text(
+                      'Error al obtener el nombre del visitante'); // Maneja el error si ocurre
+                } else {
+                  return Text(
+                    snapshot.data ??
+                        'Nombre no encontrado', // Muestra el nombre o un mensaje predeterminado si no se encuentra
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  );
+                }
+              },
             ),
             SizedBox(height: 8),
             Row(

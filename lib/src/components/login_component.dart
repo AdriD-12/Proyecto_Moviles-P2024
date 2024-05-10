@@ -137,7 +137,9 @@ class LoginComponent extends StatelessWidget {
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         String token = responseData['token'];
+
         int userId = responseData['user']['id'];
+
         // Guardar el token en SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', token);
