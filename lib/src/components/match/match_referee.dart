@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:proyecto/src/abstract/match_row.dart';
 import 'package:proyecto/src/abstract/match_team_info.dart';
 import 'package:proyecto/src/abstract/shared_preferences.dart';
+import 'package:proyecto/src/components/notification_manager.dart';
 
 class MatchReferee extends StatefulWidget {
   final MatchRow partido;
@@ -18,8 +19,8 @@ class MatchReferee extends StatefulWidget {
 
 class _MatchRefereeState extends State<MatchReferee> {
   List<MatchTeamInfo> teams = [];
-  int equipo1Counter = 0;
-  int equipo2Counter = 0;
+  int localCounter = 0;
+  int visitorCounter = 0;
   bool isTimerRunning = false;
   late Timer _timer;
   int _seconds = 0; // Cambiar a la cantidad de tiempo deseada en segundos
@@ -83,6 +84,31 @@ class _MatchRefereeState extends State<MatchReferee> {
         print("si es igual");
       }*/
     }
+    _FinishedGame();
+  }
+
+  Future<void> _FinishedGame() async {
+    int id = int.parse(widget.partido.id);
+    int index = teams.indexWhere((team) => team.id == id.toString());
+    String tiempo = teams[index].end_date;
+    int golVisitante = int.parse(teams[index].score_visitor);
+    int golLocal = int.parse(teams[index].score_local);
+    print('El valor de local ${golLocal}');
+    print('El valor de visitante ${golVisitante}');
+    // Obtener la fecha y hora actual
+    DateTime now = DateTime.now();
+
+    // Convertir la fecha del partido a un objeto DateTime
+    DateTime endTime = DateTime.parse(tiempo);
+
+    // Verificar si el partido ya ha finalizado
+    if (endTime.isBefore(now)) {
+      startTimer();
+      pauseTimer();
+      isTimerRunning = true;
+      localCounter = golLocal;
+      visitorCounter = golVisitante;
+    }
   }
 
   void startTimer() {
@@ -121,7 +147,11 @@ class _MatchRefereeState extends State<MatchReferee> {
             ),
             TextButton(
               onPressed: () {
-                pauseTimer(); // Detener el temporizador
+                pauseTimer(); // Detener el temporizador\
+                _updateDataMatch();
+                NotificationManager.showNotification(
+                    title: '¡Partido finalizado!',
+                    body: 'El partido ha sido finalizado.');
                 setState(() {
                   isTimerRunning = true;
                 });
@@ -191,6 +221,38 @@ class _MatchRefereeState extends State<MatchReferee> {
     return 'Null';
   }
 
+  void _updateDataMatch() async {
+    String? apiUrl = dotenv.env['BACKEND_ENDPOINT']!;
+    String? token = await AuthService.getToken();
+
+    String id = widget.partido.id;
+    DateTime now = DateTime.now();
+
+    print('$apiUrl/match/${id}');
+
+    final response = await http.patch(
+      Uri.parse('$apiUrl/match/${id}'),
+      body: {
+        "start_date": "2022-11-21T12:00:00",
+        "end_date": now.toString(),
+        "place": "Cancha 1",
+        "score_visitor": visitorCounter.toString(),
+        "score_local": localCounter.toString()
+      },
+      headers: {
+        'Accept': '*/*',
+        'authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      print('Se actulizaron los datos');
+    } else {
+      print('no se actulizaron los datos');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,14 +294,14 @@ class _MatchRefereeState extends State<MatchReferee> {
                         : isTimerRunning
                             ? null
                             : setState(() {
-                                if (equipo1Counter > 0) {
-                                  equipo1Counter--;
+                                if (localCounter > 0) {
+                                  localCounter--;
                                 }
                               });
                   },
                 ),
                 Text(
-                  equipo1Counter.toString(),
+                  localCounter.toString(),
                   style: TextStyle(fontSize: 24),
                 ),
                 IconButton(
@@ -250,7 +312,7 @@ class _MatchRefereeState extends State<MatchReferee> {
                         : isTimerRunning
                             ? null
                             : setState(() {
-                                equipo1Counter++;
+                                localCounter++;
                               });
                   },
                 ),
@@ -285,14 +347,14 @@ class _MatchRefereeState extends State<MatchReferee> {
                     isTimerRunning
                         ? null
                         : setState(() {
-                            if (equipo2Counter > 0) {
-                              equipo2Counter--;
+                            if (visitorCounter > 0) {
+                              visitorCounter--;
                             }
                           });
                   },
                 ),
                 Text(
-                  equipo2Counter.toString(),
+                  visitorCounter.toString(),
                   style: TextStyle(fontSize: 24),
                 ),
                 IconButton(
@@ -301,7 +363,7 @@ class _MatchRefereeState extends State<MatchReferee> {
                     isTimerRunning
                         ? null
                         : setState(() {
-                            equipo2Counter++;
+                            visitorCounter++;
                           });
                   },
                 ),
